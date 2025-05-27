@@ -1,17 +1,19 @@
-version: '3.8'
+version: '3.3'
+
 
 services:
   postgres:
     image: postgres:15
     container_name: fastfood-db
     environment:
-      POSTGRES_DB: fastdb
-      POSTGRES_USER: fastuser
-      POSTGRES_PASSWORD: fiap130
+      POSTGRES_DB: restdb
+      POSTGRES_USER: restuser
+      POSTGRES_PASSWORD: restpass
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
+
 
   app:
     build: .
@@ -21,12 +23,11 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fastdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:543/fastdb
       SPRING_DATASOURCE_USERNAME: fastuser
       SPRING_DATASOURCE_PASSWORD: fiap130
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SERVER_PORT: 8080
-
 volumes:
-  pgdata:
+  dbdata:

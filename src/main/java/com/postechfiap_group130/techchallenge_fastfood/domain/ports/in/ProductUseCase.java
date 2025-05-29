@@ -1,5 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.domain.ports.in;
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
 
-public interface AddProductUseCase {
-    void addProduct(com.domain.model.Product product);
+public interface ProductUseCase {
+    Product addProduct(Product product);
 }

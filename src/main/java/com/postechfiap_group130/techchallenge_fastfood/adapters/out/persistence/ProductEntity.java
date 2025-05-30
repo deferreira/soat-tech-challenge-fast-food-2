@@ -1,9 +1,9 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.out.persistence;
 
 import java.math.BigDecimal;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product.Category;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

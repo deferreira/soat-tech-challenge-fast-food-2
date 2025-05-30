@@ -1,5 +1,9 @@
 package com.postechfiap_group130.techchallenge_fastfood.domain.validators;
 
+import com.postechfiap_group130.techchallenge_fastfood.application.dtos.ProductDto;
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum;
+
+import br.com.fluentvalidator.AbstractValidator;
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.ObjectPredicate.nullValue;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
@@ -7,38 +11,34 @@ import static br.com.fluentvalidator.predicate.StringPredicate.stringSizeGreater
 
 import java.util.Arrays;
 
-import com.postechfiap_group130.techchallenge_fastfood.application.dtos.AddProductDto;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum;
+public class ValidatorProduct extends AbstractValidator<ProductDto> {
 
-import br.com.fluentvalidator.AbstractValidator;
-
-public class ValidatorAddProduct extends AbstractValidator<AddProductDto> {
     @Override
     public void rules() {
         
-        setPropertyOnContext(AddProductDto.class.getName());
+        setPropertyOnContext(ProductDto.class.getName());
 
-        ruleFor(AddProductDto::getName)
+        ruleFor(ProductDto::getName)
                 .must(not(stringEmptyOrNull()))
                 .withFieldName("name")
                 .withMessage("Product name cannot be null or empty")
                 .critical();
-        ruleFor(AddProductDto::getName)
+        ruleFor(ProductDto::getName)
                 .must(not(stringSizeGreaterThan(100)))
                 .withFieldName("name")
                 .withMessage("Product name is too long. Max length is 100")
                 .critical();
-        ruleFor(AddProductDto::getDescription)
+        ruleFor(ProductDto::getDescription)
                 .must(not(stringEmptyOrNull()))
                 .withFieldName("description")
                 .withMessage("Description cannot be null or empty")
                 .critical();
-        ruleFor(AddProductDto::getPrice)
+        ruleFor(ProductDto::getPrice)
                 .must(not(nullValue()))
                     .withMessage("Price age must be not null")
                     .withFieldName("price")
                 .critical();
-        ruleFor(AddProductDto::getCategory)
+        ruleFor(ProductDto::getCategory)
                 .must(status -> Arrays.asList(CategoryEnum.Category.values()).contains(status))
                 .withMessage("Invalid Category value");
     }

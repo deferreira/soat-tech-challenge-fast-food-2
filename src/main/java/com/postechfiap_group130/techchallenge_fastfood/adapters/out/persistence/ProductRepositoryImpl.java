@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product.Category;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.ProductRepositoryPort;
 
 public class ProductRepositoryImpl implements ProductRepositoryPort {
@@ -19,7 +19,13 @@ public class ProductRepositoryImpl implements ProductRepositoryPort {
     public Product Add(Product product) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(product.getId());
+        productJpaRepository.saveAndFlush(productEntity);
+        return productEntity.toDomain();
+    }
 
+    @Override
+    public Product Update(Product product) {
+        ProductEntity productEntity = ProductEntity.fromEntity(product);
         productJpaRepository.saveAndFlush(productEntity);
         return productEntity.toDomain();
     }
@@ -50,5 +56,11 @@ public class ProductRepositoryImpl implements ProductRepositoryPort {
         });
         return products;
 
+    }
+
+    @Override
+    public void Delete(Product product) {
+        var productEntity = ProductEntity.fromEntity(product);
+        productJpaRepository.delete(productEntity);
     }
 }

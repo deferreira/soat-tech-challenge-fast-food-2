@@ -7,7 +7,7 @@ services:
     container_name: fastfood-db
     environment:
       POSTGRES_DB: fastdb
-      POSTGRES_USER: fastdb
+      POSTGRES_USER: fastuser
       POSTGRES_PASSWORD: fiap130
     ports:
       - "5432:5432"

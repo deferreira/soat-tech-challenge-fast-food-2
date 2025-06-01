@@ -1,7 +1,9 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.in.web;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.exception.InvalidCpfException;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FindCustomerByCpfUseCase;
+import com.postechfiap_group130.techchallenge_fastfood.domain.validation.CpfValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,10 @@ public class CustomerController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Customer> findByCpf(@PathVariable String cpf) {
+        if (!CpfValidator.isValid(cpf)) {
+            throw new InvalidCpfException("CPF inválido: " + cpf);
+        }
+        
         Customer customer = findCustomerByCpfUseCase.findByCpf(cpf);
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }

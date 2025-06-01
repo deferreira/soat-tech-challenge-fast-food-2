@@ -1,12 +1,14 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.in.web;
 
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.InvalidCpfException;
+import com.postechfiap_group130.techchallenge_fastfood.config.TestWebConfig;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FindCustomerByCpfUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -15,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
+@Import(TestWebConfig.class)
+@ActiveProfiles("test")
 class CustomerControllerTest {
 
     @Autowired

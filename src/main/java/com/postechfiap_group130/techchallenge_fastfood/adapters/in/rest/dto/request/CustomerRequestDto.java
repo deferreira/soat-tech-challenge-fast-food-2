@@ -19,6 +19,6 @@ public class CustomerRequestDto {
     @Size(min = 8, max = 20)
     private String password;
     @NotBlank
-    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}", message = "formato invalido")
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "formato invalido")
     private String cpf;
 }

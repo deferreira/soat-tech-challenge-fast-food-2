@@ -17,7 +17,7 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
     @Override
     public boolean execute(Customer customer) {
         boolean customerExists = customerRepository.existsByEmailOrCpf(customer.getEmail(), customer.getCpf());
-        if(customerExists) {
+        if (customerExists) {
             return false;
         }
 

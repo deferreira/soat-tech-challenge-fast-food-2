@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 String.format("%s, %s", ex.getBindingResult().getFieldErrors().getFirst().getField(),
                         ex.getBindingResult().getFieldErrors().getFirst().getDefaultMessage()
-        ));
+                ));
 
         return ResponseEntity.badRequest().body(errorResponseDto);
     }

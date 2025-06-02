@@ -28,9 +28,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
         customerJpaRepository.save(customerEntity);
     }
+
     @Override
     public boolean existsByEmailOrCpf(String email, String cpf) {
 
-       return customerJpaRepository.existsByEmailOrCpf(email, cpf);
+        return customerJpaRepository.existsByEmailOrCpf(email, cpf);
     }
 }

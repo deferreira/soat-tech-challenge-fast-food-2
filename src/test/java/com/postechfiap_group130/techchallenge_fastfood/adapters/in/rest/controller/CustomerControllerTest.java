@@ -21,7 +21,7 @@ class CustomerControllerTest {
     void create_success() {
         // Arrange
         CustomerRequestDto customerRequestDto = new CustomerRequestDto("Jhon", "jhondoe@gmail.com",
-            "12345678", "111.111.111-11");
+                "12345678", "111.111.111-11");
         // Act
         when(registerCustomerUseCase.execute(any())).thenReturn(Boolean.TRUE);
 

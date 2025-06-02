@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/customers")
 public class CustomerController {
 
-   private final RegisterCustomerUseCase registerCustomerUseCase;
+    private final RegisterCustomerUseCase registerCustomerUseCase;
     private final CustomerMapper customerMapper;
 
     public CustomerController(RegisterCustomerUseCase registerCustomerUseCase, CustomerMapper customerMapper) {

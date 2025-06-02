@@ -19,26 +19,31 @@ class CustomerControllerTest {
 
     @Test
     void create_success() {
-    CustomerRequestDto customerRequestDto = new CustomerRequestDto("Jhon", "jhondoe@gmail.com",
+        // Arrange
+        CustomerRequestDto customerRequestDto = new CustomerRequestDto("Jhon", "jhondoe@gmail.com",
             "12345678", "111.111.111-11");
+        // Act
+        when(registerCustomerUseCase.execute(any())).thenReturn(Boolean.TRUE);
 
-    when(registerCustomerUseCase.execute(any())).thenReturn(Boolean.TRUE);
+        ResponseEntity<ErrorResponseDto> result = controller.create(customerRequestDto);
 
-     ResponseEntity<ErrorResponseDto> result = controller.create(customerRequestDto);
-
+        // Assert
         assertEquals(201, result.getStatusCode().value());
         verify(registerCustomerUseCase).execute(any());
     }
 
     @Test
     void create_when_email_or_cpf_exists() {
+        // Arrange
         CustomerRequestDto customerRequestDto = new CustomerRequestDto("Jhon", "jhondoe@gmail.com",
                 "12345678", "111.111.111-11");
 
         when(registerCustomerUseCase.execute(any())).thenReturn(Boolean.FALSE);
 
+        // Act
         ResponseEntity<ErrorResponseDto> result = controller.create(customerRequestDto);
 
+        // Assert
         assertEquals(400, result.getStatusCode().value());
         assertNotNull(result.getBody());
         assertEquals("Customer já existe", result.getBody().error());

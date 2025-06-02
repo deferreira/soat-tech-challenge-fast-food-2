@@ -1,6 +1,5 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.out.persistence;
 
-import com.postechfiap_group130.techchallenge_fastfood.adapters.config.PasswordEncoderConfig;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.CustomerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

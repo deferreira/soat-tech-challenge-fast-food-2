@@ -23,5 +23,5 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
 
         customerRepository.save(customer);
         return true;
-    };
+    }
 }

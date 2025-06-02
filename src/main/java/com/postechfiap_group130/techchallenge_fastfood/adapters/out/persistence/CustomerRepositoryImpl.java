@@ -16,7 +16,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public void save(Customer customer) {
         CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setId(customer.getId());
         customerEntity.setName(customer.getName());
         customerEntity.setEmail(customer.getEmail());
         customerEntity.setPassword(customer.getPassword());

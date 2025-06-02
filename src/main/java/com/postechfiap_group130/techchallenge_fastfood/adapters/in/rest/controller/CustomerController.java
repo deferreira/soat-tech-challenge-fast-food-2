@@ -1,6 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.controller;
 
 import com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.dto.request.CustomerRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.dto.response.ErrorResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.mapper.CustomerMapper;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.RegisterCustomerUseCase;
@@ -25,11 +26,15 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody @Valid CustomerRequestDto customerRequestDto) {
+    public ResponseEntity<ErrorResponseDto> create(@RequestBody @Valid CustomerRequestDto customerRequestDto) {
 
         //Adicionar validacao se necessario
         Customer customer = customerMapper.toDomain(customerRequestDto);
-        registerCustomerUseCase.execute(customer);
+        boolean result = registerCustomerUseCase.execute(customer);
+
+        if (!result) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto(400, "Customer já existe"));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

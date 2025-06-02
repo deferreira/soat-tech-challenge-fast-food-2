@@ -15,10 +15,13 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
     }
 
     @Override
-    public void execute(Customer customer) {
-
-        //Adicionar validacao de negocio
+    public boolean execute(Customer customer) {
+        boolean customerExists = customerRepository.existsByEmailOrCpf(customer.getEmail(), customer.getCpf());
+        if(customerExists) {
+            return false;
+        }
 
         customerRepository.save(customer);
+        return true;
     };
 }

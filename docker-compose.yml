@@ -3,15 +3,16 @@ version: '3.3'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:15
     container_name: fastfood-db
-    restart: always
-    volumes:
-      - ./data:/var/lib/postgresql/data2
-    environment:    
-      POSTGRES_PASSWORD: "fiap130"   
+    environment:
+      POSTGRES_DB: fastdb
+      POSTGRES_USER: fastuser
+      POSTGRES_PASSWORD: fiap130
     ports:
-      - 5432:5432  
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
 
 
   app:
@@ -21,32 +22,12 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
-    restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: "fiap130"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fastdb
+      SPRING_DATASOURCE_USERNAME: fastuser
+      SPRING_DATASOURCE_PASSWORD: fiap130
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SERVER_PORT: 8080
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin
-    restart: always
-    depends_on:
-      - postgres
-    environment:
-      PGADMIN_DEFAULT_EMAIL: fiap130@fiap.com.br
-      PGADMIN_DEFAULT_PASSWORD: pgadmin
-    ports:
-      - 8180:80
-    volumes:
-      - ./data/pgadmin:/var/lib/pgadmin
-
-
 volumes:
   dbdata:
-  
-
-  

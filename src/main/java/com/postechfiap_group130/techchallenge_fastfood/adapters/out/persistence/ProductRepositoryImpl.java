@@ -17,7 +17,7 @@ public class ProductRepositoryImpl implements ProductRepositoryPort {
 
     @Override
     public Product Add(Product product) {
-        ProductEntity productEntity = new ProductEntity();
+        ProductEntity productEntity = ProductEntity.fromEntity(product);
         productEntity.setId(product.getId());
         productJpaRepository.saveAndFlush(productEntity);
         return productEntity.toDomain();

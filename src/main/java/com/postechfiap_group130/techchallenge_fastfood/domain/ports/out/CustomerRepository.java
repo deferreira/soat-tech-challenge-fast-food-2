@@ -7,4 +7,6 @@ public interface CustomerRepository {
     void save(Customer customer);
 
     boolean existsByEmailOrCpf(String email, String cpf);
+
+    Customer findByCpf(String cpf);
 }

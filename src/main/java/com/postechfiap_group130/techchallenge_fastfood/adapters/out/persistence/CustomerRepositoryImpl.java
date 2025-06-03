@@ -34,4 +34,18 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
         return customerJpaRepository.existsByEmailOrCpf(email, cpf);
     }
+
+    @Override
+    public Customer findByCpf(String cpf) {
+        CustomerEntity entity = customerJpaRepository.findByCpf(cpf);
+        if (entity == null) return null;
+        
+        return Customer.builder()
+                .id(String.valueOf(entity.getId()))
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .cpf(entity.getCpf())
+                .build();
+    }
 }

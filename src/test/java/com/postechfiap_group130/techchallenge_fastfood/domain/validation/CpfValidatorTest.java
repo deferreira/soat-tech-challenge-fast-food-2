@@ -20,8 +20,8 @@ class CpfValidatorTest {
 
     @Test
     void whenCpfHasInvalidLength_thenReturnFalse() {
-        assertFalse(CpfValidator.isValid("1234567890")); // 10 dígitos
-        assertFalse(CpfValidator.isValid("123456789012")); // 12 dígitos
+        assertFalse(CpfValidator.isValid("1234567890")); // 10 digits
+        assertFalse(CpfValidator.isValid("123456789012")); // 12 digits
     }
 
     @Test
@@ -32,13 +32,13 @@ class CpfValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-        "12345678900", // CPF inválido
-        "11111111111", // Todos dígitos iguais
-        "123.456.789-00", // CPF inválido com formatação
-        "123456789012", // CPF com mais de 11 dígitos
-        "1234567890", // CPF com menos de 11 dígitos
-        "abc.def.ghi-jk", // CPF com letras
-        "123.456.789-0a" // CPF com letra no final
+        "12345678900", // Invalid CPF
+        "11111111111", // All digits are the same
+        "123.456.789-00", // Invalid CPF with formatting
+        "123456789012", // CPF with more than 11 digits
+        "1234567890", // CPF with less than 11 digits
+        "abc.def.ghi-jk", // CPF with letters
+        "123.456.789-0a" // CPF with letter at the end
     })
     void whenCpfIsInvalid_thenReturnFalse(String cpf) {
         assertFalse(CpfValidator.isValid(cpf));
@@ -46,10 +46,10 @@ class CpfValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-        "52998224725", // CPF válido sem formatação
-        "529.982.247-25", // CPF válido com formatação
-        "12345678909", // CPF válido sem formatação
-        "123.456.789-09" // CPF válido com formatação
+        "52998224725", // Valid CPF without formatting
+        "529.982.247-25", // Valid CPF with formatting
+        "12345678909", // Valid CPF without formatting
+        "123.456.789-09" // Valid CPF with formatting
     })
     void whenCpfIsValid_thenReturnTrue(String cpf) {
         assertTrue(CpfValidator.isValid(cpf));

@@ -7,45 +7,41 @@ public class CpfValidator {
             return false;
         }
 
-        // Remove caracteres não numéricos
+        // Remove non-numeric characters
         cpf = cpf.replaceAll("[^0-9]", "");
 
-        // Verifica se tem 11 dígitos
+        // Check if it has 11 digits
         if (cpf.length() != 11) {
             return false;
         }
 
-        // Verifica se todos os dígitos são iguais
+        // Check if all digits are the same
         if (cpf.matches("(\\d)\\1{10}")) {
             return false;
         }
 
-        // Validação do primeiro dígito verificador
+        // First digit validation
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             sum += (cpf.charAt(i) - '0') * (10 - i);
         }
-        int digit1 = 11 - (sum % 11);
-        if (digit1 > 9) {
-            digit1 = 0;
+        int firstDigit = 11 - (sum % 11);
+        if (firstDigit > 9) {
+            firstDigit = 0;
         }
-        if (digit1 != (cpf.charAt(9) - '0')) {
+        if (firstDigit != (cpf.charAt(9) - '0')) {
             return false;
         }
 
-        // Validação do segundo dígito verificador
+        // Second digit validation
         sum = 0;
         for (int i = 0; i < 10; i++) {
             sum += (cpf.charAt(i) - '0') * (11 - i);
         }
-        int digit2 = 11 - (sum % 11);
-        if (digit2 > 9) {
-            digit2 = 0;
+        int secondDigit = 11 - (sum % 11);
+        if (secondDigit > 9) {
+            secondDigit = 0;
         }
-        if (digit2 != (cpf.charAt(10) - '0')) {
-            return false;
-        }
-
-        return true;
+        return secondDigit == (cpf.charAt(10) - '0');
     }
 } 

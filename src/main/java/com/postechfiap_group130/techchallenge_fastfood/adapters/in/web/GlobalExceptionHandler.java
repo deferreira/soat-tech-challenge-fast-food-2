@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
-        body.put("error", "CPF Inválido");
+        body.put("error", "Invalid CPF");
         body.put("message", ex.getMessage());
         
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);

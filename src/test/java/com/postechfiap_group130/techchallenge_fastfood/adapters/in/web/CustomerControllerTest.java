@@ -1,14 +1,11 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.in.web;
 
-import com.postechfiap_group130.techchallenge_fastfood.config.TestWebConfig;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FindCustomerByCpfUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -16,9 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CustomerController.class)
-@Import(TestWebConfig.class)
-@ActiveProfiles("test")
+@WebMvcTest(controllers = CustomerController.class)
 class CustomerControllerTest {
 
     @Autowired
@@ -56,8 +51,8 @@ class CustomerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/customers/{cpf}", INVALID_CPF))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("CPF Inválido"))
-                .andExpect(jsonPath("$.message").value("CPF inválido: " + INVALID_CPF));
+                .andExpect(jsonPath("$.error").value("Invalid CPF"))
+                .andExpect(jsonPath("$.message").value("Invalid CPF: " + INVALID_CPF));
     }
 
     @Test
@@ -87,7 +82,7 @@ class CustomerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/customers/{cpf}", "abc.def.ghi-jk"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("CPF Inválido"));
+                .andExpect(jsonPath("$.error").value("Invalid CPF"));
     }
 
     @Test
@@ -95,7 +90,7 @@ class CustomerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/customers/{cpf}", "1234567890"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("CPF Inválido"));
+                .andExpect(jsonPath("$.error").value("Invalid CPF"));
     }
 
     @Test
@@ -103,6 +98,6 @@ class CustomerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/customers/{cpf}", "123456789012"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("CPF Inválido"));
+                .andExpect(jsonPath("$.error").value("Invalid CPF"));
     }
 } 

@@ -8,5 +8,5 @@ import org.springframework.context.annotation.PropertySource;
 @Profile("test")
 @PropertySource("classpath:application-test.properties")
 public class MockConfig {
-    // Configuração para ambiente de teste
+    // Configuration for test environment
 } 

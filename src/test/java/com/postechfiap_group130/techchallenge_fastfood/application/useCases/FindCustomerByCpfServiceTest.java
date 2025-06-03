@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.domain.services;
+package com.postechfiap_group130.techchallenge_fastfood.application.useCases;
 
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.CustomerRepository;
@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class FindCustomerByCpfServiceTest {
+class FindCustomerByCpfUseCaseImplTest {
 
     @Mock
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private FindCustomerByCpfService findCustomerByCpfService;
+    private FindCustomerByCpfUseCaseImpl findCustomerByCpfService;
 
     private Customer mockCustomer;
     private static final String TEST_CPF = "12345678900";

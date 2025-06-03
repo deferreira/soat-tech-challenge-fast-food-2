@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.config;
+package com.postechfiap_group130.techchallenge_fastfood.adapters.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

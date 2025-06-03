@@ -1,0 +1,8 @@
+package com.postechfiap_group130.techchallenge_fastfood.domain.ports.in;
+
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.Customer;
+
+public interface RegisterCustomerUseCase {
+
+    boolean execute(Customer customer);
+}

@@ -46,4 +46,9 @@ public class OrderEntity {
         return orderEntity;
     }
 
+    public static Order toDomain(OrderEntity orderEntity) {
+        Order order = new Order(orderEntity.getId(), orderEntity.orderDate, orderEntity.orderStatus);
+
+    }
+
 }

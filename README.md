@@ -1,29 +1,74 @@
-# soat-tech-challenge-fast-food
+# Fast Food API
 
-## Executando o Projeto com Docker Compose
+API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech Challenge da FIAP.
 
-Certifique-se de que você tenha o Docker e o Docker Compose instalados em sua máquina. Siga os passos abaixo para executar o projeto:
+## Tecnologias Utilizadas
 
-1. **Construa e inicie os containers**:
-   No diretório raiz do projeto (onde o arquivo `docker-compose.yml` está localizado), execute o seguinte comando:
-   ```bash
-   docker-compose up --build
+- Java 17
+- Spring Boot 3.5.0
+- Spring Data JPA
+- PostgreSQL
+- Docker
+- Maven
+- Swagger/OpenAPI
 
-2. Acesse a API: Após os containers serem iniciados, a API estará disponível em:
-   http://localhost:8080
+## Estrutura do Projeto
 
-3. Banco de Dados: O banco de dados PostgreSQL estará disponível na porta 5432. Você pode acessá-lo usando as seguintes credenciais:
+```
+/src
+ |__/main
+    |__/java
+       |__/com/postechfiap_group130/techchallenge_fastfood
+          |__/domain 			# Nucleo: entidades, interfaces das portas, regras de negócio
+          |  |__/model
+          |  |__/ports
+          |     |__/in  		# Interfaces de entrada (casos de uso)
+          |     |__/out			# Interfaces de saída (repositórios, gateways)
+          |
+          |__/application 		# Mapeamento e orquestração de serviços
+          |
+          |__/adapters 			# Adapters (entrada e saída)
+          |  |__/in			# Adapters de entrada (controllers)
+          |  |__/out			# Adapters de saída (JpaRepositories, APIs externas)
+          |
+          |__/config 			# Beans, configurações, injeções de dependencias
+```
 
-Host: localhost
-Porta:<vscode_annotation details='%5B%7B%22title%22%3A%22hardcoded-credentials%22%2C%22description%22%3A%22Embedding%20credentials%20in%20source%20code%20risks%20unauthorized%20access%22%7D%5D'> </vscode_annotation>5432
-Usuário: restuser
-Senha: restpass
-Banco de Dados: restdb
+## Funcionalidades
 
-4. Parar os containers: Para parar os containers, pressione Ctrl+C no terminal onde o comando foi executado ou use:
+- Cadastro e gerenciamento de produtos
+- Cadastro e gerenciamento de clientes
+- Criação e acompanhamento de pedidos
+- Checkout de pedidos
 
-docker-compose down
+## Endpoints
 
-5. Remover volumes (opcional): Se você quiser limpar os dados persistidos no volume do banco de dados, execute:
+### Produtos
+- `GET /api/produtos/category/{category}` - Lista produtos por categoria
+- `POST /api/produtos` - Cadastra novo produto
+- `PUT /api/produtos` - Atualiza produto existente
+- `DELETE /api/produtos` - Remove produto
 
-docker-compose down -v
+### Pedidos
+- `POST /orders/fake-checkout` - Realiza checkout de pedido
+- `GET /orders` - Lista todos os pedidos
+
+## Como Executar
+
+1. Clone o repositório
+2. Execute o Docker Compose:
+```bash
+docker-compose up --build
+```
+
+3. Acesse a documentação Swagger:
+- http://localhost:8080/swagger-ui.html
+- http://localhost:8080/swagger-ui/index.html
+
+## Status do Pedido
+
+Os pedidos podem ter os seguintes status:
+- RECEBIDO
+- EM_PREPARACAO
+- PRONTO
+- FINALIZADO

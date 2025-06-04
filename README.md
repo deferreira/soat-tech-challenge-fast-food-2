@@ -2,6 +2,10 @@
 
 API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech Challenge da FIAP.
 
+## Vídeo de Apresentação
+
+[![Vídeo de Apresentação](https://img.youtube.com/vi/brByCx_4ksk/0.jpg)](https://youtu.be/brByCx_4ksk)
+
 ## Tecnologias Utilizadas
 
 - Java 17
@@ -55,7 +59,8 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 
 ## Como Executar
 
-1. Clone o repositório
+1. Clone o repositório 
+https://github.com/deferreira/soat-tech-challenge-fast-food
 2. Execute o Docker Compose:
 ```bash
 docker-compose up --build

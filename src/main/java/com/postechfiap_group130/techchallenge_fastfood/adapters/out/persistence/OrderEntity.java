@@ -1,6 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.adapters.out.persistence;
 
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Order;
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.OrderStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,6 +45,13 @@ public class OrderEntity {
         orderEntity.setItems(itemEntities);
 
         return orderEntity;
+    }
+
+    public static Order toDomain(OrderEntity orderEntity) {
+        List<OrderItem> orderItems = orderEntity.getItems().stream()
+            .map(item -> new OrderItem(item.getId(), item.getProductId(), item.getQuantity()))
+            .toList();
+        return new Order(orderEntity.getId(), orderEntity.getOrderDate(), orderEntity.getOrderStatus(), orderItems);
     }
 
 }

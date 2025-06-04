@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.domain.model;
+package com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
-    private String id;
+public class CustomerResponseDto {
     private String name;
     private String email;
-    private String password;
     private String cpf;
-}
+} 

@@ -1,14 +1,13 @@
-package com.postechfiap_group130.techchallenge_fastfood.adapters.in.controllers;
+package com.postechfiap_group130.techchallenge_fastfood.adapters.in.rest.controller;
 
 import br.com.fluentvalidator.Validator;
 import br.com.fluentvalidator.context.ValidationResult;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.AddProductDto;
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.DeleteProductDto;
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.ProductDto;
@@ -19,7 +18,6 @@ import com.postechfiap_group130.techchallenge_fastfood.domain.validators.Validat
 
 @RestController
 @RequestMapping("/api/produtos")
-//@Tag(name = "Produtos", description = "API para gerenciamento de produtos") - Aguardar Dependencia Swagger
 public class ProductController {
     private final ProductUseCasePort productUseCase;
 
@@ -29,8 +27,8 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> GetProductByCategory(@PathVariable("category") Category category){
-        var products = productUseCase.findByCategory(category);
-        return ResponseEntity.status(HttpStatus.OK).body(products);
+        List<Product> products = productUseCase.FindByCategory(category);
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping
@@ -48,7 +46,7 @@ public class ProductController {
         }
     }
     
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateProduct(@RequestBody ProductDto produtoDto) {
         final Validator<ProductDto> validatorProduct = new ValidatorProduct();
         final ValidationResult result = validatorProduct.validate(produtoDto);
@@ -67,7 +65,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping
+    @DeleteMapping
     public ResponseEntity<?> deleteProduct(@RequestBody DeleteProductDto produtoDto) {
         var product = productUseCase.findById(produtoDto.getId());
         if (product == null) {

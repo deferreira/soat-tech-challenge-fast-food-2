@@ -10,12 +10,8 @@ public class CategoryEnum {
 
         private Category category;
 
-        public Category getStatus() {
+        public Category getCategory() {
             return category;
-        }
-
-        public void setStatus(Category category) {
-            this.category = category;
         }
     }
 }

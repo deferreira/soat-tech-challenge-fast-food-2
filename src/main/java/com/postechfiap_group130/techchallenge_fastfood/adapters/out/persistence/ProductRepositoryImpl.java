@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.ProductRepositoryPort;
 
+@Repository
 public class ProductRepositoryImpl implements ProductRepositoryPort {
     private final ProductJpaRepository productJpaRepository;
 
@@ -55,7 +58,6 @@ public class ProductRepositoryImpl implements ProductRepositoryPort {
             products.add(element.toDomain());
         });
         return products;
-
     }
 
     @Override

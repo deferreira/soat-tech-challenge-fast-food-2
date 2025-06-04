@@ -27,6 +27,12 @@ public class ProductController {
         this.productUseCase = productUseCase;
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Product>> GetProductByCategory(@PathVariable("category") Category category){
+        var products = productUseCase.findByCategory(category);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
+    }
+
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody AddProductDto produtoDto) {
         final Validator<AddProductDto> validatorProduct = new ValidatorAddProduct();

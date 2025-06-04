@@ -50,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepositoryPort {
     @Override
     public List<Product> FindByCategory(Category category) {
         List<Product> products = new ArrayList<>();
-        var productEntity = productJpaRepository.findBycategory(category);
+        var productEntity = productJpaRepository.findByCategory(category);
         productEntity.forEach(element -> {
             products.add(element.toDomain());
         });

@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: fastfood-db
+data:
+  POSTGRES_DB: fastdb
+  POSTGRES_USER: fastuser # Base64 de "fastuser"
+  POSTGRES_PASSWORD: fiap130 # Base64 de "fiap130"
+  #POSTGRES_USER: ZmFzdHVzZXI= # Base64 de "fastuser"
+  #POSTGRES_PASSWORD: ZmlhcDEzMA== # Base64 de "fiap130"
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: postgres-secret
+#   namespace: fastfood-db
+# type: Opaque
+# data:
+#   POSTGRES_USER: fastuser # Base64 de "fastuser"
+#   POSTGRES_PASSWORD: fiap130 # Base64 de "fiap130"
+#   #POSTGRES_USER: ZmFzdHVzZXI= # Base64 de "fastuser"
+#   #POSTGRES_PASSWORD: ZmlhcDEzMA== # Base64 de "fiap130"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: fastfood-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: fastfood-db
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: fastfood-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc

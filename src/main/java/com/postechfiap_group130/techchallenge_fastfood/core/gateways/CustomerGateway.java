@@ -14,6 +14,7 @@ public class CustomerGateway implements ICustomerGateway {
     }
     // Recebe uma entidade do Domain transforma em DTO para o dataSource.
     // O dataSource recebe o DTO e transforma em entity do JPA para salvar no banco.
+    //Gateway retorna a entidade
     @Override
     public void save(Customer customer) {
         CustomerDto customerDto = new CustomerDto(
@@ -45,8 +46,8 @@ public class CustomerGateway implements ICustomerGateway {
                 customerDto.id(),
                 customerDto.name(),
                 customerDto.email(),
-                customerDto.cpf(),
-                customerDto.password());
+                customerDto.password(),
+                customerDto.cpf());
 
         return customer;
     }

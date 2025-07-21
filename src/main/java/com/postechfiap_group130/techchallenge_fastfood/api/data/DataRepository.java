@@ -44,7 +44,7 @@ public class DataRepository implements DataSource {
         if (entity == null) return null;
 
         CustomerDto customerDto = new CustomerDto(
-                entity.getId().toString(),
+                entity.getId(),
                 entity.getName(),
                 entity.getEmail(),
                 entity.getCpf(),

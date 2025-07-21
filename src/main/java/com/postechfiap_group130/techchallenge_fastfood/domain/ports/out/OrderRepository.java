@@ -1,6 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.domain.ports.out;
 
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Order;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 
 import java.util.List;
 

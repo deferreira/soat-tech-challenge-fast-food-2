@@ -1,7 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.application.dtos;
 
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Order;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.OrderItem;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

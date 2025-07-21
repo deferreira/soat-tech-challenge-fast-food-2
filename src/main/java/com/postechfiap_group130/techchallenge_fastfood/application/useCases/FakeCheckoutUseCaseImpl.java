@@ -1,6 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.application.useCases;
 
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Order;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FakeCheckoutUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.OrderRepository;
 import org.springframework.stereotype.Service;

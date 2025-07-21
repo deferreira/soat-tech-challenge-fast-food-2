@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.api.data;
+package com.postechfiap_group130.techchallenge_fastfood.api.data.jpa;
 
 import jakarta.persistence.*;
 import lombok.Getter;

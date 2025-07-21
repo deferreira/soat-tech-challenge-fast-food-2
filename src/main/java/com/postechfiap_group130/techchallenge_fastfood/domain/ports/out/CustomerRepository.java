@@ -4,9 +4,9 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.Customer;
 
 public interface CustomerRepository {
 
-    void save(Customer customer);
-
-    boolean existsByEmailOrCpf(String email, String cpf);
-
-    Customer findByCpf(String cpf);
+//    void save(Customer customer);
+//
+//    boolean existsByEmailOrCpf(String email, String cpf);
+//
+//    Customer findByCpf(String cpf);
 }

@@ -1,5 +1,7 @@
-package com.postechfiap_group130.techchallenge_fastfood.api.data;
+package com.postechfiap_group130.techchallenge_fastfood.api.data.old.repository;
 
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.domain.ports.out.OrderRepository;
@@ -32,27 +34,5 @@ public class OrderRepositoryImpl implements OrderRepository {
         }).toList();
 
         return new Order(result.getId(), order.getOrderDate(), order.getOrderStatus(), orderItemList);
-    }
-
-    @Override
-    public List<Order> findAll() {
-        List<OrderEntity> orderEntities = orderJpaRepository.findAll();
-
-        List<Order> orderList = orderEntities.stream().map(orderEntity -> {
-            List<OrderItem> orderItemList = orderEntity.getItems().stream().map(orderItemEntity -> {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setOrderId(orderItemEntity.getId());
-                orderItem.setProductId(orderItemEntity.getProductId());
-                orderItem.setQuantity(orderItemEntity.getQuantity());
-
-                return orderItem;
-            }).toList();
-
-            Order order = new Order(orderEntity.getId(), orderEntity.getOrderDate(), orderEntity.getOrderStatus(), orderItemList);
-            return order;
-
-        }).toList();
-
-        return orderList;
     }
 }

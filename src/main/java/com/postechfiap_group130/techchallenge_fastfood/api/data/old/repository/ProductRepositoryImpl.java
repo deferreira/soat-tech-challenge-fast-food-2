@@ -1,9 +1,11 @@
-package com.postechfiap_group130.techchallenge_fastfood.api.data;
+package com.postechfiap_group130.techchallenge_fastfood.api.data.old.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;

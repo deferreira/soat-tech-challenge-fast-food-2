@@ -1,5 +1,9 @@
 package com.postechfiap_group130.techchallenge_fastfood.api.data;
 
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerJpaRepository;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;

@@ -16,20 +16,18 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderResource {
 
-    private final FakeCheckoutUseCase fakeCheckoutUseCase;
-
     private final DataRepository dataRepository;
 
-    public OrderResource(DataRepository dataRepository, FakeCheckoutUseCase fakeCheckoutUseCase) {
+    public OrderResource(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
-        this.fakeCheckoutUseCase = fakeCheckoutUseCase;
     }
 
     //Falta refatorar este fluxo
     @PostMapping("/fake-checkout")
-    public ResponseEntity<Order> fakeCheckout(@RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseEntity<Order> checkout(@RequestBody OrderRequestDto orderRequestDto) {
+        OrderController orderController = new OrderController(dataRepository);
 
-         Order order = fakeCheckoutUseCase.execute(orderRequestDto.toDomain());
+         Order order = orderController.checkout(orderRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }

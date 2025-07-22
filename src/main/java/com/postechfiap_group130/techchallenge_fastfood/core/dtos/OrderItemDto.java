@@ -1,9 +1,10 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.dtos;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 public record OrderItemDto(
         Long orderId,
         Long productId,
-        BigInteger quantity) {
+        Integer quantity,
+        BigDecimal price) {
 }

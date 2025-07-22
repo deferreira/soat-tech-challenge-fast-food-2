@@ -18,9 +18,10 @@ public class OrderRequestDto {
         List<OrderItem> listOrderItem = items.stream().map((orderItemDto) -> new OrderItem(
                         orderItemDto.orderId(),
                         orderItemDto.productId(),
-                        orderItemDto.quantity()))
+                        orderItemDto.quantity(),
+                        orderItemDto.price()))
                 .toList();
 
-        return new Order(null, null, null, listOrderItem);
+        return new Order(null, null, null, listOrderItem, null);
     }
 }

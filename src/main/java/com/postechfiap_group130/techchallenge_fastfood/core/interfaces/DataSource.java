@@ -6,11 +6,14 @@ import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import java.util.List;
 
 public interface DataSource {
-    void save(CustomerDto customerDto);
+    void saveCustomer(CustomerDto customerDto);
 
-    boolean existsByEmailOrCpf(String email, String cpf);
+    boolean existsCustomerByEmailOrCpf(String email, String cpf);
 
-    CustomerDto findByCpf(String cpf);
+    CustomerDto findCustomerByCpf(String cpf);
 
     List<OrderDto> getAllOrders();
+
+    OrderDto saveOrder(OrderDto orderDto);
+
 }

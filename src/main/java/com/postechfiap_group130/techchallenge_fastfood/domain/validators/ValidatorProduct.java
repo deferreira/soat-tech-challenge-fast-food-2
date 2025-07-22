@@ -1,7 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.domain.validators;
 
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.ProductDto;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum;
 
 import br.com.fluentvalidator.AbstractValidator;
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;

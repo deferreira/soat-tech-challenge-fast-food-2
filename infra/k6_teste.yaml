@@ -9,12 +9,12 @@ data:
     import { check, sleep } from 'k6';
 
     export let options = {
-      vus: 100, // Número de usuários virtuais
+      vus: 600, // Número de usuários virtuais
       duration: '130s', // Duração do teste
     };
 
     export default function () {
-      let res = http.get('http://fastfood-api-service:8080/orders');
+      let res = http.get('http://fastfood-api-service:8080/api/produtos/category/ACOMPANHAMENTO');
       check(res, { 'status is 200': (r) => r.status === 200 });
       sleep(1);
     }

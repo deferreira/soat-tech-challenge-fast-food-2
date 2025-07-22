@@ -2,8 +2,8 @@ package com.postechfiap_group130.techchallenge_fastfood.domain.ports.out;
 
 import java.util.List;
 import java.util.Optional;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
 
 public interface ProductRepositoryPort {

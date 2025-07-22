@@ -1,8 +1,8 @@
 package com.postechfiap_group130.techchallenge_fastfood.application.dtos;
 
 import java.math.BigDecimal;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.CategoryEnum.Category;
-import com.postechfiap_group130.techchallenge_fastfood.domain.model.Product;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

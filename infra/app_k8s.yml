@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fastfood-api-config
+  namespace: fastfood-app
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service.fastfood-db:5432/fastdb
+#  SPRING_DATASOURCE_USERNAME: fastuser
+#  SPRING_DATASOURCE_PASSWORD: fiap130
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SPRING_JPA_SHOW_SQL: "true"
+  SERVER_PORT: "8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastfood-api-service
+  namespace: fastfood-app
+spec:
+  selector:
+    app: fastfood-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastfood-api-deployment
+  namespace: fastfood-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastfood-api
+  template:
+    metadata:
+      labels:
+        app: fastfood-api
+    spec:
+      containers:
+        - name: fastfood-api
+          image: soat-tech-challenge-fast-food-app:eks2
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "800Mi" # Mínimo de memória garantida
+              cpu: "250m"      # Mínimo de CPU garantida (0.25 cores)
+            limits:
+              memory: "1G" # Máximo de memória que o container pode usar
+              cpu: "512m"      # Máximo de CPU que o container pode usar (0.5 cores)
+          envFrom:
+            - configMapRef:
+                name: fastfood-api-config
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-api-secrets
+                  key: DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-api-secrets
+                  key: DATASOURCE_PASSWORD
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fastfood-api-hpa
+  namespace: fastfood-app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fastfood-api-deployment
+
+  minReplicas: 1
+  maxReplicas: 5
+  # Sintaxe corrigida para múltiplas métricas
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          # O HPA irá escalar quando o uso médio de memória ultrapassar 31% do que foi solicitado (requests.memory)
+          averageUtilization: 31

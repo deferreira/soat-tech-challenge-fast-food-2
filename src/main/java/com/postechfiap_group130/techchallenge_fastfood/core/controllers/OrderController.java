@@ -28,13 +28,12 @@ public class OrderController {
         return OrderPresenter.toDto(listOrders);
     }
 
-    public List<OrderDto> checkout(OrderRequestDto orderRequestDto) {
+    public OrderDto checkout(OrderRequestDto orderRequestDto) {
         OrderGateway orderGateway = new OrderGateway(dataSource);
         CheckoutUseCase checkoutUseCase = new CheckoutUseCase(orderGateway);
 
-        var result = checkoutUseCase.execute(orderRequestDto);
+        Order result = checkoutUseCase.execute(orderRequestDto);
 
-        return OrderPresenter.toDto();
+        return OrderPresenter.toDto(result);
     }
-
 }

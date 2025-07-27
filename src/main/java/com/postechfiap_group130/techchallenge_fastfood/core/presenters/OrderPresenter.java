@@ -12,8 +12,17 @@ public class OrderPresenter {
                 .map((order -> new OrderDto(
                         order.getId(),
                         order.getOrderDate(),
-                        order.getOrderStatus())))
+                        order.getOrderStatus(),
+                        order.getTotal())))
                 .toList();
         return orderDtoList;
+    }
+
+    public static OrderDto toDto(Order order) {
+        return new OrderDto(
+                order.getId(),
+                order.getOrderDate(),
+                order.getOrderStatus(),
+                order.getTotal());
     }
 }

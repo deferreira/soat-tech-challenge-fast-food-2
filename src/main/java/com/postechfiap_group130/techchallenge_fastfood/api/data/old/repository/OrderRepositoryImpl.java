@@ -25,14 +25,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         OrderEntity result = orderJpaRepository.save(orderEntity);
 
         List<OrderItem> orderItemList = result.getItems().stream().map(orderItemEntity -> {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrderId(result.getId());
-            orderItem.setProductId(orderItemEntity.getProductId());
-            orderItem.setQuantity(orderItemEntity.getQuantity());
+            OrderItem orderItem = new OrderItem(orderItemEntity.getProductId(), orderItemEntity.getQuantity(), orderItemEntity.getPrice());
 
             return orderItem;
         }).toList();
 
-        return new Order(result.getId(), order.getOrderDate(), order.getOrderStatus(), orderItemList);
+        return new Order(result.getId(), order.getOrderDate(), order.getOrderStatus(), orderItemList, order.getTotal());
     }
 }

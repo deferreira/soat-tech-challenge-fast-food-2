@@ -6,6 +6,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderStatus
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class OrderEntity {
     private LocalDateTime orderDate;
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatus;
+    private BigDecimal total;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items;
@@ -34,7 +36,7 @@ public class OrderEntity {
 
         List<OrderItemEntity> itemEntities = order.getItems().stream().map(orderItem -> {
             OrderItemEntity orderItemEntity = new OrderItemEntity();
-            orderItemEntity.setId(orderItem.getOrderId());
+            orderItemEntity.setId(orderItem.getId());
             orderItemEntity.setProductId(orderItem.getProductId());
             orderItemEntity.setQuantity(orderItem.getQuantity());
             orderItemEntity.setOrder(orderEntity);
@@ -45,13 +47,6 @@ public class OrderEntity {
         orderEntity.setItems(itemEntities);
 
         return orderEntity;
-    }
-
-    public static Order toDomain(OrderEntity orderEntity) {
-        List<OrderItem> orderItems = orderEntity.getItems().stream()
-            .map(item -> new OrderItem(item.getId(), item.getProductId(), item.getQuantity()))
-            .toList();
-        return new Order(orderEntity.getId(), orderEntity.getOrderDate(), orderEntity.getOrderStatus(), orderItems);
     }
 
 }

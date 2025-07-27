@@ -25,17 +25,34 @@ public class OrderGateway implements IOrderGateway {
                         .map(orderItemDto -> new OrderItem(
                                 orderItemDto.orderId(),
                                 orderItemDto.productId(),
-                                orderItemDto.quantity()))))
+                                orderItemDto.quantity(),
+                                orderItemDto.price()))))
                 .toList();
 
         List<Order> listOrders = result.stream()
                 .map((item) -> new Order(
-                        item.id(), item.orderDate(),
+                        item.id(),
+                        item.orderDate(),
                         item.orderStatus(),
-                        listOrderItems
+                        listOrderItems,
+                        item.total()
                         )).toList();
 
         return listOrders;
+    }
+
+    @Override
+    public Order save(Order order) {
+        OrderDto orderDto = new OrderDto(
+                null,
+                order.getOrderDate(),
+                order.getOrderStatus(),
+                order.getTotal());
+
+        OrderDto saveOrder = dataSource.saveOrder(orderDto);
+        order.setId(saveOrder.id());
+
+        return order;
     }
 
 

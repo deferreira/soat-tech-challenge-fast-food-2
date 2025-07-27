@@ -24,12 +24,12 @@ public class CustomerGateway implements ICustomerGateway {
                 customer.getCpf(),
                 customer.getPassword());
 
-        dataSource.save(customerDto);
+        dataSource.saveCustomer(customerDto);
     }
 
     @Override
     public boolean existsByEmailOrCpf(String email, String cpf) {
-        boolean result = dataSource.existsByEmailOrCpf(email, cpf);
+        boolean result = dataSource.existsCustomerByEmailOrCpf(email, cpf);
 
         return result;
     }
@@ -37,7 +37,7 @@ public class CustomerGateway implements ICustomerGateway {
     @Override
     public Customer findByCpf(String cpf) {
 
-        CustomerDto customerDto = dataSource.findByCpf(cpf);
+        CustomerDto customerDto = dataSource.findCustomerByCpf(cpf);
         if (customerDto == null) {
             return null;
         }

@@ -30,7 +30,7 @@ public class DataRepository implements DataSource {
     //Recebe um DTO e transforma para Entity do JPA para salvar
     //Devolve um DTO
     @Override
-    public void save(CustomerDto customerDto) {
+    public void saveCustomer(CustomerDto customerDto) {
         String encryptedPassword = passwordEncoder.encode(customerDto.password());
 
         CustomerEntity customerEntity = new CustomerEntity();
@@ -45,13 +45,13 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public boolean existsByEmailOrCpf(String email, String cpf) {
+    public boolean existsCustomerByEmailOrCpf(String email, String cpf) {
 
         return customerJpaRepository.existsByEmailOrCpf(email, cpf);
     }
 
     @Override
-    public CustomerDto findByCpf(String cpf) {
+    public CustomerDto findCustomerByCpf(String cpf) {
         CustomerEntity entity = customerJpaRepository.findByCpf(cpf);
         if (entity == null) return null;
 
@@ -73,8 +73,10 @@ public class DataRepository implements DataSource {
         List<OrderItemDto> listOrderItemDto = listOrderEntity.stream()
                     .flatMap((orderEntity) ->  orderEntity.getItems().stream()
                             .map((orderItem) -> new OrderItemDto(
-                                    orderItem.getId(), orderItem.getProductId(),
-                                    orderItem.getQuantity())))
+                                    orderItem.getId(),
+                                    orderItem.getProductId(),
+                                    orderItem.getQuantity(),
+                                    orderItem.getPrice())))
                 .toList();
 
         List<OrderDto> listOrderDto = listOrderEntity.stream()
@@ -82,10 +84,23 @@ public class DataRepository implements DataSource {
                         item.getId(),
                         item.getOrderDate(),
                         item.getOrderStatus(),
-                        listOrderItemDto))
+                        listOrderItemDto,
+                        item.getTotal()))
                 .toList();
 
         return listOrderDto;
+    }
+
+    @Override
+    public OrderDto saveOrder(OrderDto orderDto) {
+        OrderEntity orderEntity = new OrderEntity();
+
+        orderEntity.setOrderDate(orderDto.orderDate());
+        orderEntity.setOrderStatus(orderDto.orderStatus());
+        orderEntity.setTotal(orderDto.total());
+
+        orderJpaRepository.save(orderEntity);
+        return null;
     }
 
 

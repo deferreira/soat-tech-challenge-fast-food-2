@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "orderItems")
@@ -16,7 +16,8 @@ public class OrderItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long productId;
-    private BigInteger quantity;
+    private Integer quantity;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

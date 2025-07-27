@@ -15,9 +15,5 @@ public record OrderDto(
 
     public OrderDto(Long id, LocalDateTime orderDate, OrderStatusEnum orderStatus, BigDecimal total) {
         this(id, orderDate, orderStatus, List.of(), total); // usa lista vazia por padrão
-    }
-
-    public OrderDto(Long id) {
-        this(id, null, null, null, null);
-    }   
+    }  
 }

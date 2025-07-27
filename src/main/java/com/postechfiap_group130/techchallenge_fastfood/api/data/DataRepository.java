@@ -99,9 +99,12 @@ public class DataRepository implements DataSource {
         orderEntity.setOrderStatus(orderDto.orderStatus());
         orderEntity.setTotal(orderDto.total());
 
-        orderJpaRepository.save(orderEntity);
-        return null;
+        OrderEntity savedEntity = orderJpaRepository.save(orderEntity);
+        
+        return new OrderDto(
+                savedEntity.getId(),
+                savedEntity.getOrderDate(),
+                savedEntity.getOrderStatus(),
+                savedEntity.getTotal());
     }
-
-
 }

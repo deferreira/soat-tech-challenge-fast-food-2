@@ -4,8 +4,6 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.OrderController;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
-import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FakeCheckoutUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +20,11 @@ public class OrderResource {
         this.dataRepository = dataRepository;
     }
 
-    //Falta refatorar este fluxo
-    @PostMapping("/fake-checkout")
-    public ResponseEntity<Order> checkout(@RequestBody OrderRequestDto orderRequestDto) {
+    @PostMapping("/checkout")
+    public ResponseEntity<OrderDto> checkout(@RequestBody OrderRequestDto orderRequestDto) {
         OrderController orderController = new OrderController(dataRepository);
 
-         Order order = orderController.checkout(orderRequestDto);
+        OrderDto order = orderController.checkout(orderRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }

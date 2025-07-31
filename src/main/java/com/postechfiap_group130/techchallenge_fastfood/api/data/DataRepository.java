@@ -4,9 +4,13 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerEnti
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderEntity;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepository;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.ProductCategoryDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.ProductDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -17,14 +21,17 @@ public class DataRepository implements DataSource {
 
     private final CustomerJpaRepository customerJpaRepository;
     private final OrderJpaRepository orderJpaRepository;
+    private final ProductJpaRepository productJpaRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataRepository(
             CustomerJpaRepository customerJpaRepository,
             OrderJpaRepository orderJpaRepository,
+            ProductJpaRepository productJpaRepository,
             PasswordEncoder passwordEncoder) {
         this.customerJpaRepository = customerJpaRepository;
         this.orderJpaRepository = orderJpaRepository;
+        this.productJpaRepository = productJpaRepository;
         this.passwordEncoder = passwordEncoder;
     }
     //Recebe um DTO e transforma para Entity do JPA para salvar
@@ -88,5 +95,79 @@ public class DataRepository implements DataSource {
         return listOrderDto;
     }
 
+    @Override
+    public ProductDto saveProduct(ProductDto productDto) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setName(productDto.name());
+        productEntity.setDescription(productDto.description());
+        productEntity.setPrice(productDto.price());
+        productEntity.setCategory(productDto.category());
+        productEntity.setAvaliable(productDto.avaliable());
 
+        productEntity = productJpaRepository.save(productEntity);
+
+        return new ProductDto(
+                    productEntity.getId(), 
+                    productEntity.getName(), 
+                    productEntity.getDescription(),
+                    productEntity.getPrice(), 
+                    productEntity.getCategory(),
+                    productEntity.getAvaliable()
+                );
+    }
+
+    @Override
+    public void updateProduct(ProductDto productDto) {
+        this.saveProduct(productDto);
+    }
+
+    @Override
+    public ProductDto findById(Long id) {
+        java.util.Optional<ProductEntity> entity = productJpaRepository.findById(id);
+
+        if (entity.isEmpty()) return null;
+
+        ProductDto productDto = new ProductDto(
+                entity.get().getId(),
+                entity.get().getName(),
+                entity.get().getDescription(),
+                entity.get().getPrice(),
+                entity.get().getCategory(),
+                entity.get().getAvaliable());
+
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> findAll() {
+
+        List<ProductEntity> products = productJpaRepository.findAll();
+        List<ProductDto> productsDto = products.stream()
+                .map(item -> new ProductDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getCategory(),
+                        item.getAvaliable()
+                        ))
+                .toList();
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> findByCategory(ProductCategoryDto ProductCategoryDto) {
+        List<ProductEntity> products = productJpaRepository.findByCategory(ProductCategoryDto.category());
+        List<ProductDto> productsDto = products.stream()
+                .map(item -> new ProductDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getCategory(),
+                        item.getAvaliable()
+                        ))
+                .toList();
+        return productsDto;
+    }
 }

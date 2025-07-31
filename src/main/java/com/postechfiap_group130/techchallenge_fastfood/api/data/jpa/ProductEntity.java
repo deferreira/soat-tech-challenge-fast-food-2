@@ -26,7 +26,6 @@ import lombok.Setter;
 @Data
 public class ProductEntity {
 
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +34,7 @@ public class ProductEntity {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private Category category;
-    private boolean avaliable;
+    private Boolean avaliable;
 
     public static ProductEntity fromEntity(Product produto) {
         return new ProductEntity(
@@ -44,7 +43,7 @@ public class ProductEntity {
             produto.getDescription(),
             produto.getPrice(),
             produto.getCategory(),
-            produto.isAvaliable()
+            produto.getAvaliable()
         );
     }
     

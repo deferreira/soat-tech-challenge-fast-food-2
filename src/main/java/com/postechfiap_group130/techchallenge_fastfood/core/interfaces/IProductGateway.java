@@ -1,14 +1,14 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.interfaces;
 
 import java.util.List;
+
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
-public interface IProductsGateway {
-    void AddProduct(Product product);
-    void UpdateProduct(Product product);
-    Product FindById(Long id);
-    List<Product> FindAll();
-    List<Product> FindByCategory(Category category);
-    void Delete(Product product);
+public interface IProductGateway {
+    Product saveProduct(Product product);
+    void updateProduct(Product product);
+    Product findById(Long id);
+    List<Product> findAll();
+    List<Product> findByCategory(Category category);
 }

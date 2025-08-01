@@ -4,6 +4,7 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerEnti
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderEntity;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepository;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderItemEntity;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
@@ -99,12 +100,25 @@ public class DataRepository implements DataSource {
         orderEntity.setOrderStatus(orderDto.orderStatus());
         orderEntity.setTotal(orderDto.total());
 
+        List<OrderItemEntity> orderItemEntityList = orderDto.listOrderItemDto().stream()
+                .map(item -> {
+                    OrderItemEntity itemEntity = new OrderItemEntity();
+                    itemEntity.setProductId(item.productId());
+                    itemEntity.setQuantity(item.quantity());
+                    itemEntity.setPrice(item.price());
+                    itemEntity.setOrder(orderEntity); // ESSENCIAL!
+                    return itemEntity;
+                }).toList();
+
+        orderEntity.setItems(orderItemEntityList);
+
         OrderEntity savedEntity = orderJpaRepository.save(orderEntity);
         
         return new OrderDto(
                 savedEntity.getId(),
                 savedEntity.getOrderDate(),
                 savedEntity.getOrderStatus(),
+                orderDto.listOrderItemDto(),
                 savedEntity.getTotal());
     }
 }

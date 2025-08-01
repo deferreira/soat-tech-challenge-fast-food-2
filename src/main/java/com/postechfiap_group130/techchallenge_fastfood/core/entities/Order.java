@@ -3,12 +3,10 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
@@ -21,8 +19,9 @@ public class Order {
 
     public Order(List<OrderItem> items) {
         this.items = items;
+        this.orderDate = LocalDateTime.now();
         this.orderStatus = OrderStatusEnum.PENDING;
-        this.total = calculateTotal();
+        this.total = calculateTotal(); // soma dos itens * quantidade
     }
 
     // setter opcional para setar o id vindo do banco

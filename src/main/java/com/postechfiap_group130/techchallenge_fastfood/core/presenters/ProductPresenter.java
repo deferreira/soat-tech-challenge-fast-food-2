@@ -6,19 +6,20 @@ import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.Pro
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
 public class ProductPresenter {
+
     public static ProductResponseDto toDto(Product product) {
         return new ProductResponseDto(
-                product.getId(), 
-                product.getName(), 
-                product.getDescription(), 
-                product.getPrice(), 
-                product.getCategory(), 
-                product.getAvaliable()
-        );
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getCategory(),
+                        product.getAvaliable()
+                    );
     }
 
-    public static List<ProductResponseDto> toDtoList(List<Product> productList) {
-        List<ProductResponseDto> productDtoList = productList.stream()
+    public static List<ProductResponseDto> toDtoList(List<Product> listProduct) {
+        List<ProductResponseDto> productDtoList = listProduct.stream()
                 .map((product -> new ProductResponseDto(
                         product.getId(),
                         product.getName(),

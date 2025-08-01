@@ -41,7 +41,7 @@ public class ProductController {
         ProductGateway productGateway = new ProductGateway(dataSource);
         GetProductsByCategoryUseCase getProductsByCategoryUseCase = new GetProductsByCategoryUseCase(productGateway);
 
-        Product product = registerProductUseCase.execute(productRequestDto);
-        return ProductPresenter.toDto(product);
+        List<Product> products = getProductsByCategoryUseCase.execute(category);
+        return ProductPresenter.toDtoList(products);
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 public interface IOrderGateway {
     List<Order> getAllOrders();
     Order save(Order order);
+    Order getOrderById(Long id);
 }

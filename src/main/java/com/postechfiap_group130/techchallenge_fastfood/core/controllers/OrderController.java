@@ -36,4 +36,13 @@ public class OrderController {
 
         return OrderPresenter.toDto(result);
     }
+
+    public OrderDto updateStatus(Long orderId, String orderStatus) {
+        OrderGateway orderGateway = new OrderGateway(dataSource);
+        CheckoutUseCase checkoutUseCase = new CheckoutUseCase(orderGateway);
+
+        Order result = checkoutUseCase.execute(orderRequestDto);
+
+        return OrderPresenter.toDto(result);
+    }
 }

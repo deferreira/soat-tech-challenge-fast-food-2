@@ -11,6 +11,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Repository
@@ -28,6 +29,7 @@ public class DataRepository implements DataSource {
         this.orderJpaRepository = orderJpaRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     //Recebe um DTO e transforma para Entity do JPA para salvar
     //Devolve um DTO
     @Override
@@ -72,12 +74,12 @@ public class DataRepository implements DataSource {
         if (listOrderEntity == null) return null;
 
         List<OrderItemDto> listOrderItemDto = listOrderEntity.stream()
-                    .flatMap((orderEntity) ->  orderEntity.getItems().stream()
-                            .map((orderItem) -> new OrderItemDto(
-                                    orderItem.getId(),
-                                    orderItem.getProductId(),
-                                    orderItem.getQuantity(),
-                                    orderItem.getPrice())))
+                .flatMap((orderEntity) -> orderEntity.getItems().stream()
+                        .map((orderItem) -> new OrderItemDto(
+                                orderItem.getId(),
+                                orderItem.getProductId(),
+                                orderItem.getQuantity(),
+                                orderItem.getPrice())))
                 .toList();
 
         List<OrderDto> listOrderDto = listOrderEntity.stream()
@@ -113,12 +115,35 @@ public class DataRepository implements DataSource {
         orderEntity.setItems(orderItemEntityList);
 
         OrderEntity savedEntity = orderJpaRepository.save(orderEntity);
-        
+
         return new OrderDto(
                 savedEntity.getId(),
                 savedEntity.getOrderDate(),
                 savedEntity.getOrderStatus(),
                 orderDto.listOrderItemDto(),
                 savedEntity.getTotal());
+    }
+
+    @Override
+    public OrderDto getOrderById(Long id) {
+
+        OrderEntity orderEntity = orderJpaRepository.findById(id).orElse(null);
+
+        if (orderEntity == null) return null;
+
+        List<OrderItemDto> orderItemDtoList = orderEntity.getItems().stream()
+                .map(item -> new OrderItemDto(
+                        item.getId(),
+                        item.getProductId(),
+                        item.getQuantity(),
+                        item.getPrice()))
+                .toList();
+
+        return new OrderDto(
+                orderEntity.getId(),
+                orderEntity.getOrderDate(),
+                orderEntity.getOrderStatus(),
+                orderItemDtoList,
+                orderEntity.getTotal());
     }
 }

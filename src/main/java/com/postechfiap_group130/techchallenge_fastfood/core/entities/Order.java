@@ -4,6 +4,7 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,5 +34,9 @@ public class Order {
         return items.stream()
                 .map(OrderItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updateStatus(OrderStatusEnum orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

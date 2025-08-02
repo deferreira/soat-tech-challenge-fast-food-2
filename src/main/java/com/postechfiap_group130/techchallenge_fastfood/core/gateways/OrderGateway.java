@@ -64,5 +64,21 @@ public class OrderGateway implements IOrderGateway {
         return order;
     }
 
+    @Override
+    public Order getOrderById(Long id) {
+        OrderDto order = dataSource.getOrderById(id);
+
+        if (order == null) return null;
+
+        List<OrderItem> orderItemList = order.listOrderItemDto().stream()
+                .map(item -> new OrderItem(
+                        item.orderId(),
+                        item.productId(),
+                        item.quantity(),
+                        item.price()))
+                .toList();
+
+        return new Order(order.id(), order.orderDate(), order.orderStatus(), orderItemList, order.total());
+    }
 
 }

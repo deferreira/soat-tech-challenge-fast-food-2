@@ -37,4 +37,13 @@ public class OrderResource {
 
         return ResponseEntity.status(HttpStatus.OK).body(ordersList);
     }
+
+    @PatchMapping("/{orderId}/status/{orderStatus}")
+    public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
+        OrderController orderController = new OrderController(dataRepository);
+
+//        OrderDto order = orderController.checkout(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(order);
+    }
 }

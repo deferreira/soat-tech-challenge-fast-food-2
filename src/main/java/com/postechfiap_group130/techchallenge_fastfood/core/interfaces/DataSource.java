@@ -16,4 +16,6 @@ public interface DataSource {
 
     OrderDto saveOrder(OrderDto orderDto);
 
+    OrderDto getOrderById(Long id);
+
 }

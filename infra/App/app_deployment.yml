@@ -15,7 +15,10 @@ spec:
     spec:
       containers:
         - name: fastfood-api
-          image: ghcr.io/deferreira/soat-tech-challenge-fast-food:latest
+#          image: ghcr.io/deferreira/soat-tech-challenge-fast-food:latest
+          image: hmouraf/fastfood:tech3
+#          image: soat-tech-challenge-fast-food-app:eks3
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           resources:

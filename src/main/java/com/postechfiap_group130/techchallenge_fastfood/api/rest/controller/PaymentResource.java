@@ -2,6 +2,7 @@ package com.postechfiap_group130.techchallenge_fastfood.api.rest.controller;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.PaymentRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdatePaymentRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.PaymentController;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.PaymentStatusEnum;
@@ -33,5 +34,14 @@ public class PaymentResource {
         PaymentDto result = paymentController.createPayment(paymentRequestDto);
 
         return result != null ? ResponseEntity.ok(result) : ResponseEntity.internalServerError().build();
+    }
+
+    @PatchMapping("/{paymentId}/status")
+    public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long paymentId, @RequestBody @Valid UpdatePaymentRequestDto updatePaymentRequestDto) {
+        // TODO: implement id validation
+        PaymentController paymentController = new PaymentController(dataRepository);
+        PaymentDto result = paymentController.updatePayment(paymentId, updatePaymentRequestDto);
+
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.notFound().build();
     }
 } 

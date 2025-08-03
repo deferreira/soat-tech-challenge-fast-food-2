@@ -1,5 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdatePaymentRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.PaymentStatusEnum;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
@@ -69,5 +70,29 @@ class PaymentControllerTest {
         });
         
         verify(dataSource).findPaymentById(paymentId);
+    }
+
+    @Test
+    @DisplayName("Should update payment status successfully")
+    void shouldUpdatePaymentStatusSuccessfully() {
+        Long paymentId = 1L;
+        String newStatus = "APPROVED";
+        UpdatePaymentRequestDto requestDto = new UpdatePaymentRequestDto(newStatus);
+        
+        PaymentDto expectedDto = new PaymentDto(
+            paymentId, 
+            1L, 
+            new BigDecimal("100.00"), 
+            PaymentStatusEnum.APPROVED
+        );
+        
+        when(dataSource.updatePaymentStatus(any())).thenReturn(expectedDto);
+
+        PaymentDto result = paymentController.updatePayment(paymentId, requestDto);
+
+        assertNotNull(result);
+        assertEquals(paymentId, result.id());
+        assertEquals(PaymentStatusEnum.APPROVED, result.status());
+        verify(dataSource).updatePaymentStatus(any());
     }
 } 

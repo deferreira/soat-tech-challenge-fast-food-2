@@ -1,6 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.PaymentRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdatePaymentRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Payment;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.PaymentGateway;
@@ -8,6 +9,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSourc
 import com.postechfiap_group130.techchallenge_fastfood.core.presenters.PaymentPresenter;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.CheckPaymentStatusUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.CreatePaymentUseCase;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.UpdatePaymentUseCase;
 
 public class PaymentController {
 
@@ -28,6 +30,13 @@ public class PaymentController {
         PaymentGateway paymentGateway = new PaymentGateway(dataSource);
         CreatePaymentUseCase createPaymentUseCase = new CreatePaymentUseCase(paymentGateway);
         Payment payment = createPaymentUseCase.execute(paymentRequestDto);
+        return PaymentPresenter.toDto(payment);
+    }
+
+    public PaymentDto updatePayment(Long paymentId, UpdatePaymentRequestDto updatePaymentRequestDto) {
+        PaymentGateway paymentGateway = new PaymentGateway(dataSource);
+        UpdatePaymentUseCase updatePaymentUseCase = new UpdatePaymentUseCase(paymentGateway);
+        Payment payment = updatePaymentUseCase.execute(paymentId, updatePaymentRequestDto);
         return PaymentPresenter.toDto(payment);
     }
 }

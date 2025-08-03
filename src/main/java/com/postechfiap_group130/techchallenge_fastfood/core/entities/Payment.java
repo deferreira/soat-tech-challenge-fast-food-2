@@ -19,6 +19,11 @@ public class Payment {
         this.status = PaymentStatusEnum.PENDING;
     }
 
+    public Payment(Long id, PaymentStatusEnum status) {
+        this.id = id;
+        this.status = status;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

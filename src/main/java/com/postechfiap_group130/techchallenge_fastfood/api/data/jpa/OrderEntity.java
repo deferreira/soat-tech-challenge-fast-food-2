@@ -23,6 +23,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatus;
     private BigDecimal total;
+    private Long paymentId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items;

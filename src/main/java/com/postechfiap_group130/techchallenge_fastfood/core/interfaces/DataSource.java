@@ -2,8 +2,11 @@ package com.postechfiap_group130.techchallenge_fastfood.core.interfaces;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.Payment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DataSource {
     void saveCustomer(CustomerDto customerDto);
@@ -16,4 +19,7 @@ public interface DataSource {
 
     OrderDto saveOrder(OrderDto orderDto);
 
+    PaymentDto savePayment(PaymentDto paymentDto);
+
+    Optional<PaymentDto> findPaymentById(Long paymentId);
 }

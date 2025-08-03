@@ -7,6 +7,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSourc
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.IOrderGateway;
 
 import java.util.List;
+import java.util.Optional;
 
 public class OrderGateway implements IOrderGateway {
 
@@ -30,13 +31,12 @@ public class OrderGateway implements IOrderGateway {
                 .toList();
 
         List<Order> listOrders = result.stream()
-                .map((item) -> new Order(
-                        item.id(),
-                        item.orderDate(),
-                        item.orderStatus(),
-                        listOrderItems,
-                        item.total()
-                        )).toList();
+                .map((item) -> {
+                    Order order = new Order(listOrderItems);
+                    order.setId(item.id());
+                    order.setPaymentId(item.paymentId());
+                    return order;
+                }).toList();
 
         return listOrders;
     }
@@ -47,7 +47,8 @@ public class OrderGateway implements IOrderGateway {
                 null,
                 order.getOrderDate(),
                 order.getOrderStatus(),
-                order.getTotal());
+                order.getTotal(),
+                order.getPaymentId());
 
         OrderDto saveOrder = dataSource.saveOrder(orderDto);
         order.setId(saveOrder.id());
@@ -55,5 +56,28 @@ public class OrderGateway implements IOrderGateway {
         return order;
     }
 
+    @Override
+    public Optional<Order> findById(Long orderId) {
+        List<OrderDto> allOrders = dataSource.getAllOrders();
+        
+        return allOrders.stream()
+                .filter(orderDto -> orderId.equals(orderDto.id()))
+                .findFirst()
+                .map(this::mapToOrder);
+    }
 
+    private Order mapToOrder(OrderDto orderDto) {
+        List<OrderItem> orderItems = orderDto.listOrderItemDto().stream()
+                .map(itemDto -> new OrderItem(
+                        itemDto.orderId(),
+                        itemDto.productId(),
+                        itemDto.quantity(),
+                        itemDto.price()))
+                .toList();
+
+        Order order = new Order(orderItems);
+        order.setId(orderDto.id());
+        order.setPaymentId(orderDto.paymentId());
+        return order;
+    }
 }

@@ -16,6 +16,7 @@ public class Order {
     private OrderStatusEnum orderStatus;
     private List<OrderItem> items;
     private BigDecimal total;
+    private Long paymentId;
 
     public Order(List<OrderItem> items) {
         this.items = items;
@@ -26,6 +27,10 @@ public class Order {
     // setter opcional para setar o id vindo do banco
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
     }
 
     public BigDecimal calculateTotal() {

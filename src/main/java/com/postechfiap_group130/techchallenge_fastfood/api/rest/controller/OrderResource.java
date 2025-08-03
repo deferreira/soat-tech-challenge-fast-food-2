@@ -37,4 +37,12 @@ public class OrderResource {
 
         return ResponseEntity.status(HttpStatus.OK).body(ordersList);
     }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
+        OrderController orderController = new OrderController(dataRepository);
+        OrderDto response = orderController.findById(orderId);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
 }

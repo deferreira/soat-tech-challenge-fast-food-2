@@ -13,7 +13,8 @@ public class OrderPresenter {
                         order.getId(),
                         order.getOrderDate(),
                         order.getOrderStatus(),
-                        order.getTotal())))
+                        order.getTotal(),
+                        order.getPaymentId())))
                 .toList();
         return orderDtoList;
     }
@@ -23,6 +24,7 @@ public class OrderPresenter {
                 order.getId(),
                 order.getOrderDate(),
                 order.getOrderStatus(),
-                order.getTotal());
+                order.getTotal(),
+                order.getPaymentId());
     }
 }

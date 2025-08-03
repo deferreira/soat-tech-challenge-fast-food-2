@@ -22,6 +22,6 @@ public class OrderRequestDto {
                         orderItemDto.price()))
                 .toList();
 
-        return new Order(null, null, null, listOrderItem, null);
+        return new Order(null, null, null, listOrderItem, null, null);
     }
 }

@@ -8,6 +8,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import com.postechfiap_group130.techchallenge_fastfood.core.presenters.OrderPresenter;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.UpdateOrderStatusUseCase;
 
 import java.util.List;
 
@@ -39,9 +40,9 @@ public class OrderController {
 
     public OrderDto updateStatus(Long orderId, String orderStatus) {
         OrderGateway orderGateway = new OrderGateway(dataSource);
-        CheckoutUseCase checkoutUseCase = new CheckoutUseCase(orderGateway);
+        UpdateOrderStatusUseCase updateOrderStatusUseCase = new UpdateOrderStatusUseCase(orderGateway);
 
-        Order result = checkoutUseCase.execute(orderRequestDto);
+        Order result = updateOrderStatusUseCase.execute(orderId, orderStatus);
 
         return OrderPresenter.toDto(result);
     }

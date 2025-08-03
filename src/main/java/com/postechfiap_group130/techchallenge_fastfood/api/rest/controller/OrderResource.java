@@ -42,7 +42,7 @@ public class OrderResource {
     public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
         OrderController orderController = new OrderController(dataRepository);
 
-//        OrderDto order = orderController.checkout(id);
+        OrderDto order = orderController.updateStatus(orderId, orderStatus);
 
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }

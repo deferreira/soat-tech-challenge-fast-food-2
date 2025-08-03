@@ -3,8 +3,8 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +36,12 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void updateStatus(OrderStatusEnum orderStatus) {
-        this.orderStatus = orderStatus;
+    public void updateStatus(String status) {
+        if(Arrays.stream(OrderStatusEnum.values())
+                .noneMatch(value -> value.toString().equals(status))) {
+            throw new IllegalArgumentException("Order status not recognized");
+        }
+
+        this.orderStatus = OrderStatusEnum.valueOf(status);
     }
 }

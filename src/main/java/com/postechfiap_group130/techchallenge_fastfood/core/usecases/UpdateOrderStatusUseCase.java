@@ -2,6 +2,7 @@ package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
+import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 
 public class UpdateOrderStatusUseCase {
 
@@ -11,12 +12,18 @@ public class UpdateOrderStatusUseCase {
         this.orderGateway = orderGateway;
     }
 
-    public void updateOrderStatus(Long orderId, String orderStatus) {
+    public Order execute(Long orderId, String orderStatus) {
 
         Order order = orderGateway.getOrderById(orderId);
 
-        order.updateStatus();
+        if (order == null) {
+            throw new ErrorException("Order not found with id " + orderId);
+        }
 
+        order.updateStatus(orderStatus);
 
+        Order orderUpdated = orderGateway.save(order);
+
+        return orderUpdated;
     }
 }

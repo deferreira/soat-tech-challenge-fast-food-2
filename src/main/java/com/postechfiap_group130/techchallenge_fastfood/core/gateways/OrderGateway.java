@@ -1,6 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.gateways;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
@@ -25,17 +26,42 @@ public class OrderGateway implements IOrderGateway {
                         .map(orderItemDto -> new OrderItem(
                                 orderItemDto.orderId(),
                                 orderItemDto.productId(),
-                                orderItemDto.quantity()))))
+                                orderItemDto.quantity(),
+                                orderItemDto.price()))))
                 .toList();
 
         List<Order> listOrders = result.stream()
                 .map((item) -> new Order(
-                        item.id(), item.orderDate(),
+                        item.id(),
+                        item.orderDate(),
                         item.orderStatus(),
-                        listOrderItems
-                        )).toList();
+                        listOrderItems,
+                        item.total()
+                )).toList();
 
         return listOrders;
+    }
+
+    @Override
+    public Order save(Order order) {
+        List<OrderItemDto> orderItemDtoList = order.getItems().stream().map(item -> new OrderItemDto(
+                        item.getId(),
+                        item.getProductId(),
+                        item.getQuantity(),
+                        item.getPrice()))
+                .toList();
+
+        OrderDto orderDto = new OrderDto(
+                null,
+                order.getOrderDate(),
+                order.getOrderStatus(),
+                orderItemDtoList,
+                order.getTotal());
+
+        OrderDto saveOrder = dataSource.saveOrder(orderDto);
+        order.setId(saveOrder.id());
+
+        return order;
     }
 
 

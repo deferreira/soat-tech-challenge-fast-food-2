@@ -2,7 +2,7 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 
 public enum OrderStatusEnum {
 
-    PENDING,
+    CREATED,
     RECEBIDO,
     EM_PREPARACAO,
     PRONTO,

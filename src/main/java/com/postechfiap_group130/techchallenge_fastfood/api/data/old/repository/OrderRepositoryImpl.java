@@ -30,6 +30,6 @@ public class OrderRepositoryImpl implements OrderRepository {
             return orderItem;
         }).toList();
 
-        return new Order(result.getId(), order.getOrderDate(), order.getOrderStatus(), orderItemList, order.getTotal());
+        return new Order(result.getId(), order.getOrderDate(), order.getOrderStatus(), orderItemList, order.getTotal(), order.getPaymentId());
     }
 }

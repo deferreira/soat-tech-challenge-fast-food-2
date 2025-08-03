@@ -5,29 +5,39 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.CustomerJpaR
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderEntity;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderItemEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.PaymentEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.PaymentJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.entities.PaymentStatusEnum;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DataRepository implements DataSource {
 
     private final CustomerJpaRepository customerJpaRepository;
     private final OrderJpaRepository orderJpaRepository;
+    private final PaymentJpaRepository paymentJpaRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataRepository(
             CustomerJpaRepository customerJpaRepository,
             OrderJpaRepository orderJpaRepository,
+            PaymentJpaRepository paymentJpaRepository,
             PasswordEncoder passwordEncoder) {
         this.customerJpaRepository = customerJpaRepository;
         this.orderJpaRepository = orderJpaRepository;
+        this.paymentJpaRepository = paymentJpaRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     //Recebe um DTO e transforma para Entity do JPA para salvar
     //Devolve um DTO
     @Override
@@ -67,17 +77,39 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public OrderDto findOrderById(Long id) {
+        Optional<OrderEntity> orderEntity = orderJpaRepository.findById(id);
+        if (orderEntity.isEmpty()) return null;
+
+        List<OrderItemDto> orderItemDtoList = orderEntity.get().getItems().stream()
+                .map((orderItem) -> new OrderItemDto(
+                        orderItem.getId(),
+                        orderItem.getProductId(),
+                        orderItem.getQuantity(),
+                        orderItem.getPrice()))
+                .toList();
+
+        return new OrderDto(
+                orderEntity.get().getId(),
+                orderEntity.get().getOrderDate(),
+                orderEntity.get().getOrderStatus(),
+                orderItemDtoList,
+                orderEntity.get().getTotal(),
+                orderEntity.get().getPaymentId());
+    }
+
+    @Override
     public List<OrderDto> getAllOrders() {
         List<OrderEntity> listOrderEntity = orderJpaRepository.findAll();
         if (listOrderEntity == null) return null;
 
         List<OrderItemDto> listOrderItemDto = listOrderEntity.stream()
-                    .flatMap((orderEntity) ->  orderEntity.getItems().stream()
-                            .map((orderItem) -> new OrderItemDto(
-                                    orderItem.getId(),
-                                    orderItem.getProductId(),
-                                    orderItem.getQuantity(),
-                                    orderItem.getPrice())))
+                .flatMap((orderEntity) -> orderEntity.getItems().stream()
+                        .map((orderItem) -> new OrderItemDto(
+                                orderItem.getId(),
+                                orderItem.getProductId(),
+                                orderItem.getQuantity(),
+                                orderItem.getPrice())))
                 .toList();
 
         List<OrderDto> listOrderDto = listOrderEntity.stream()
@@ -86,7 +118,8 @@ public class DataRepository implements DataSource {
                         item.getOrderDate(),
                         item.getOrderStatus(),
                         listOrderItemDto,
-                        item.getTotal()))
+                        item.getTotal(),
+                        item.getPaymentId()))
                 .toList();
 
         return listOrderDto;
@@ -113,12 +146,50 @@ public class DataRepository implements DataSource {
         orderEntity.setItems(orderItemEntityList);
 
         OrderEntity savedEntity = orderJpaRepository.save(orderEntity);
-        
+
         return new OrderDto(
                 savedEntity.getId(),
                 savedEntity.getOrderDate(),
                 savedEntity.getOrderStatus(),
                 orderDto.listOrderItemDto(),
-                savedEntity.getTotal());
+                savedEntity.getTotal(),
+                savedEntity.getPaymentId());
+    }
+
+    @Override
+    public PaymentDto savePayment(PaymentDto paymentDto) {
+        PaymentEntity paymentEntity = new PaymentEntity(
+                paymentDto.orderId(),
+                paymentDto.amount(),
+                paymentDto.status() != null ? paymentDto.status() : PaymentStatusEnum.PENDING
+        );
+
+        if (paymentDto.id() != null) {
+            paymentEntity.setId(paymentDto.id());
+        }
+
+        PaymentEntity savedEntity = paymentJpaRepository.save(paymentEntity);
+
+        return new PaymentDto(
+                savedEntity.getId(),
+                savedEntity.getOrderId(),
+                savedEntity.getAmount(),
+                savedEntity.getStatus()
+        );
+    }
+
+    @Override
+    public Optional<PaymentDto> findPaymentById(Long paymentId) {
+        if (paymentId == null) {
+            return Optional.empty();
+        }
+
+        return paymentJpaRepository.findById(paymentId)
+                .map(entity -> new PaymentDto(
+                        entity.getId(),
+                        entity.getOrderId(),
+                        entity.getAmount(),
+                        entity.getStatus()
+                ));
     }
 }

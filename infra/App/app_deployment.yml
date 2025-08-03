@@ -1,31 +1,3 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: fastfood-api-config
-  namespace: fastfood-app
-data:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service.fastfood-db:5432/fastdb
-#  SPRING_DATASOURCE_USERNAME: fastuser
-#  SPRING_DATASOURCE_PASSWORD: fiap130
-  SPRING_JPA_HIBERNATE_DDL_AUTO: update
-  SPRING_JPA_SHOW_SQL: "true"
-  SERVER_PORT: "8080"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fastfood-api-service
-  namespace: fastfood-app
-spec:
-  selector:
-    app: fastfood-api
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30080
-  type: NodePort
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -68,25 +40,4 @@ spec:
                   name: fastfood-api-secrets
                   key: DATASOURCE_PASSWORD
 ---
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: fastfood-api-hpa
-  namespace: fastfood-app
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: fastfood-api-deployment
 
-  minReplicas: 1
-  maxReplicas: 5
-  # Sintaxe corrigida para múltiplas métricas
-  metrics:
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          # O HPA irá escalar quando o uso médio de memória ultrapassar 31% do que foi solicitado (requests.memory)
-          averageUtilization: 31

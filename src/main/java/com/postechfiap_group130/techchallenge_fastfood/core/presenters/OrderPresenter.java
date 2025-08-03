@@ -5,6 +5,8 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class OrderPresenter {
 
     public static List<OrderDto> toDto(List<Order> listOrder) {
@@ -13,6 +15,7 @@ public class OrderPresenter {
                         order.getId(),
                         order.getOrderDate(),
                         order.getOrderStatus(),
+                        List.of(),
                         order.getTotal(),
                         order.getPaymentId())))
                 .toList();
@@ -24,6 +27,7 @@ public class OrderPresenter {
                 order.getId(),
                 order.getOrderDate(),
                 order.getOrderStatus(),
+                List.of(),
                 order.getTotal(),
                 order.getPaymentId());
     }

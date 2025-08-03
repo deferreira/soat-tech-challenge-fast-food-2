@@ -20,8 +20,9 @@ public class Order {
 
     public Order(List<OrderItem> items) {
         this.items = items;
+        this.orderDate = LocalDateTime.now();
         this.orderStatus = OrderStatusEnum.PENDING;
-        this.total = calculateTotal();
+        this.total = calculateTotal(); // soma dos itens * quantidade
     }
 
     // setter opcional para setar o id vindo do banco

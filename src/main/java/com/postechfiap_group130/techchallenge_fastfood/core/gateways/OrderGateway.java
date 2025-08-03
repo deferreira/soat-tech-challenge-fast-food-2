@@ -1,6 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.gateways;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
@@ -31,22 +32,32 @@ public class OrderGateway implements IOrderGateway {
                 .toList();
 
         List<Order> listOrders = result.stream()
-                .map((item) -> {
-                    Order order = new Order(listOrderItems);
-                    order.setId(item.id());
-                    order.setPaymentId(item.paymentId());
-                    return order;
-                }).toList();
+                .map((item) -> new Order(
+                        item.id(),
+                        item.orderDate(),
+                        item.orderStatus(),
+                        listOrderItems,
+                        item.total(),
+                        item.paymentId()
+                )).toList();
 
         return listOrders;
     }
 
     @Override
     public Order save(Order order) {
+        List<OrderItemDto> orderItemDtoList = order.getItems().stream().map(item -> new OrderItemDto(
+                        item.getId(),
+                        item.getProductId(),
+                        item.getQuantity(),
+                        item.getPrice()))
+                .toList();
+
         OrderDto orderDto = new OrderDto(
                 null,
                 order.getOrderDate(),
                 order.getOrderStatus(),
+                orderItemDtoList,
                 order.getTotal(),
                 order.getPaymentId());
 
@@ -59,7 +70,7 @@ public class OrderGateway implements IOrderGateway {
     @Override
     public Optional<Order> findById(Long orderId) {
         List<OrderDto> allOrders = dataSource.getAllOrders();
-        
+
         return allOrders.stream()
                 .filter(orderDto -> orderId.equals(orderDto.id()))
                 .findFirst()

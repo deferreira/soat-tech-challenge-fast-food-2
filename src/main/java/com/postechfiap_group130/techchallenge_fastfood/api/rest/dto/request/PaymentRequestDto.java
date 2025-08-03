@@ -1,6 +1,8 @@
 package com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +14,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PaymentRequestDto {
 
-    @NotBlank
+    @NotNull
     private Long orderId;
-    @NotBlank
+    @NotNull @Positive
     private BigDecimal amount;
 }

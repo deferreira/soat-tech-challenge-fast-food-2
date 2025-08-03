@@ -18,15 +18,9 @@ public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "order_id", nullable = false)
     private Long orderId;
-
-    @Column(nullable = false)
     private BigDecimal amount;
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PaymentStatusEnum status;
 
     public PaymentEntity(Long orderId, BigDecimal amount, PaymentStatusEnum status) {

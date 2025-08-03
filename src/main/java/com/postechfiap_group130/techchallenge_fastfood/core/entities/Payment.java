@@ -26,16 +26,4 @@ public class Payment {
     public void setStatus(PaymentStatusEnum status) {
         this.status = status;
     }
-
-    public boolean isApproved() {
-        return PaymentStatusEnum.APPROVED.equals(this.status);
-    }
-
-    public boolean isRejected() {
-        return PaymentStatusEnum.REJECTED.equals(this.status);
-    }
-
-    public boolean isPending() {
-        return PaymentStatusEnum.PENDING.equals(this.status);
-    }
 }

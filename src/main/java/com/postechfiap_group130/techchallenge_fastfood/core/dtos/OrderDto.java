@@ -13,8 +13,4 @@ public record OrderDto(
         List<OrderItemDto> listOrderItemDto,
         BigDecimal total,
         Long paymentId
-    ) {
-    public OrderDto(Long id, LocalDateTime orderDate, OrderStatusEnum orderStatus, BigDecimal total, Long paymentId) {
-        this(id, orderDate, orderStatus, List.of(), total, paymentId); // usa lista vazia por padrão
-    }  
-}
+    ) {}

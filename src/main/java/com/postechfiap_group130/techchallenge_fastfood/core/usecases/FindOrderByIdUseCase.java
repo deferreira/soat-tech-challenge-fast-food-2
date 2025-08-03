@@ -19,12 +19,8 @@ public class FindOrderByIdUseCase {
             throw new IllegalArgumentException("Order ID cannot be null");
         }
 
-        Optional<Order> order = orderGateway.findById(orderId);
-        
-        if (order.isEmpty()) {
-            throw new ErrorException("Order not found with ID: " + orderId);
-        }
+        Order order = orderGateway.findById(orderId);
 
-        return order.get();
+        return order;
     }
 } 

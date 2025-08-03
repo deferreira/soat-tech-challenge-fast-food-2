@@ -40,6 +40,7 @@ public class OrderResource {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
+        // TODO: implement id validation
         OrderController orderController = new OrderController(dataRepository);
         OrderDto response = orderController.findById(orderId);
 

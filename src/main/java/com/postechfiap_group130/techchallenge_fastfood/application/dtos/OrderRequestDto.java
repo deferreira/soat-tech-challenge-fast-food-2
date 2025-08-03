@@ -16,7 +16,7 @@ public class OrderRequestDto {
 
     public Order toDomain() {
         List<OrderItem> listOrderItem = items.stream().map((orderItemDto) -> new OrderItem(
-                        orderItemDto.orderId(),
+                        orderItemDto.id(),
                         orderItemDto.productId(),
                         orderItemDto.quantity(),
                         orderItemDto.price()))

@@ -77,6 +77,28 @@ public class DataRepository implements DataSource {
     }
 
     @Override
+    public OrderDto findOrderById(Long id) {
+        Optional<OrderEntity> orderEntity = orderJpaRepository.findById(id);
+        if (orderEntity.isEmpty()) return null;
+
+        List<OrderItemDto> orderItemDtoList = orderEntity.get().getItems().stream()
+                .map((orderItem) -> new OrderItemDto(
+                        orderItem.getId(),
+                        orderItem.getProductId(),
+                        orderItem.getQuantity(),
+                        orderItem.getPrice()))
+                .toList();
+
+        return new OrderDto(
+                orderEntity.get().getId(),
+                orderEntity.get().getOrderDate(),
+                orderEntity.get().getOrderStatus(),
+                orderItemDtoList,
+                orderEntity.get().getTotal(),
+                orderEntity.get().getPaymentId());
+    }
+
+    @Override
     public List<OrderDto> getAllOrders() {
         List<OrderEntity> listOrderEntity = orderJpaRepository.findAll();
         if (listOrderEntity == null) return null;

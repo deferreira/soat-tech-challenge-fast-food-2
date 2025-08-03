@@ -8,7 +8,6 @@ import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSourc
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.IOrderGateway;
 
 import java.util.List;
-import java.util.Optional;
 
 public class OrderGateway implements IOrderGateway {
 
@@ -25,7 +24,7 @@ public class OrderGateway implements IOrderGateway {
         List<OrderItem> listOrderItems = result.stream()
                 .flatMap((orderDto -> orderDto.listOrderItemDto().stream()
                         .map(orderItemDto -> new OrderItem(
-                                orderItemDto.orderId(),
+                                orderItemDto.id(),
                                 orderItemDto.productId(),
                                 orderItemDto.quantity(),
                                 orderItemDto.price()))))
@@ -68,19 +67,15 @@ public class OrderGateway implements IOrderGateway {
     }
 
     @Override
-    public Optional<Order> findById(Long orderId) {
-        List<OrderDto> allOrders = dataSource.getAllOrders();
-
-        return allOrders.stream()
-                .filter(orderDto -> orderId.equals(orderDto.id()))
-                .findFirst()
-                .map(this::mapToOrder);
+    public Order findById(Long orderId) {
+        OrderDto order = dataSource.findOrderById(orderId);
+        return mapToOrder(order);
     }
 
     private Order mapToOrder(OrderDto orderDto) {
         List<OrderItem> orderItems = orderDto.listOrderItemDto().stream()
                 .map(itemDto -> new OrderItem(
-                        itemDto.orderId(),
+                        itemDto.id(),
                         itemDto.productId(),
                         itemDto.quantity(),
                         itemDto.price()))

@@ -34,6 +34,8 @@ public class OrderEntity {
         orderEntity.setId(order.getId());
         orderEntity.setOrderDate(order.getOrderDate());
         orderEntity.setOrderStatus(order.getOrderStatus());
+        orderEntity.setTotal(order.getTotal());
+        orderEntity.setPaymentId(order.getPaymentId());
 
         List<OrderItemEntity> itemEntities = order.getItems().stream().map(orderItem -> {
             OrderItemEntity orderItemEntity = new OrderItemEntity();

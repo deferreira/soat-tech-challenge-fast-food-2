@@ -21,7 +21,7 @@ public class Order {
     public Order(List<OrderItem> items) {
         this.items = items;
         this.orderDate = LocalDateTime.now();
-        this.orderStatus = OrderStatusEnum.PENDING;
+        this.orderStatus = OrderStatusEnum.CREATED;
         this.total = calculateTotal(); // soma dos itens * quantidade
     }
 

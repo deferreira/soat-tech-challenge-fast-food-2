@@ -37,13 +37,13 @@ class FindOrderByIdUseCaseTest {
         Order order = new Order(items);
         order.setId(orderId);
         
-        when(orderGateway.findById(orderId)).thenReturn(Optional.of(order));
+        when(orderGateway.findById(orderId)).thenReturn(order);
 
         Order result = findOrderByIdUseCase.execute(orderId);
 
         assertNotNull(result);
         assertEquals(orderId, result.getId());
-        assertEquals(OrderStatusEnum.PENDING, result.getOrderStatus());
+        assertEquals(OrderStatusEnum.CREATED, result.getOrderStatus());
         
         verify(orderGateway).findById(orderId);
     }
@@ -52,7 +52,7 @@ class FindOrderByIdUseCaseTest {
     @DisplayName("Must throw exception when order not found")
     void shouldThrowExceptionWhenOrderNotFound() {
         Long orderId = 999L;
-        when(orderGateway.findById(orderId)).thenReturn(Optional.empty());
+        when(orderGateway.findById(orderId)).thenThrow(new ErrorException("Order not found"));
 
         assertThrows(ErrorException.class, () -> {
             findOrderByIdUseCase.execute(orderId);
@@ -62,7 +62,7 @@ class FindOrderByIdUseCaseTest {
     }
 
     @Test
-    @DisplayName("Must throw exception when orderId is null")
+    @DisplayName("Must throw exception when id is null")
     void shouldThrowExceptionWhenOrderIdIsNull() {
         assertThrows(IllegalArgumentException.class, () -> {
             findOrderByIdUseCase.execute(null);

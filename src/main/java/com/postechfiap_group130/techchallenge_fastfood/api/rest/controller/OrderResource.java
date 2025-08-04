@@ -41,19 +41,12 @@ public class OrderResource {
     @GetMapping
     public ResponseEntity<List<OrderDto>> getOrders() {
         OrderController orderController = new OrderController(dataRepository);
-
         List<OrderDto> ordersList = orderController.getAllOrders();
 
-        List<OrderDto> sortedFilteredOrders = ordersList.stream()
-                .filter(order -> order.getStatus() != null && !order.getStatus().equalsIgnoreCase("FINALIZADO"))
-                .sorted((o1, o2) -> {
-                    int statusComparison = Integer.compare(getStatusPriority(o1.getStatus()), getStatusPriority(o2.getStatus()));
-                    if (statusComparison != 0) return statusComparison;
-
-                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-                })
-                .toList();
+        GetAllOrdersUseCase useCase = new GetAllOrdersUseCase();
+        List<OrderDto> sortedFilteredOrders = useCase.execute(ordersList);
 
         return ResponseEntity.status(HttpStatus.OK).body(sortedFilteredOrders);
     }
 }
+

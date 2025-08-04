@@ -21,24 +21,27 @@ public class OrderGateway implements IOrderGateway {
     public List<Order> getAllOrders() {
         List<OrderDto> result = dataSource.getAllOrders();
 
-        List<OrderItem> listOrderItems = result.stream()
-                .flatMap((orderDto -> orderDto.listOrderItemDto().stream()
-                        .map(orderItemDto -> new OrderItem(
-                                orderItemDto.id(),
-                                orderItemDto.productId(),
-                                orderItemDto.quantity(),
-                                orderItemDto.price()))))
-                .toList();
-
         List<Order> listOrders = result.stream()
-                .map((item) -> new Order(
-                        item.id(),
-                        item.orderDate(),
-                        item.orderStatus(),
-                        listOrderItems,
-                        item.total(),
-                        item.paymentId()
-                )).toList();
+                .map(orderDto -> {
+                    List<OrderItem> items = orderDto.listOrderItemDto().stream()
+                            .map(orderItemDto -> new OrderItem(
+                                    orderItemDto.id(),
+                                    orderItemDto.productId(),
+                                    orderItemDto.quantity(),
+                                    orderItemDto.price()
+                            ))
+                            .toList();
+
+                    return new Order(
+                            orderDto.id(),
+                            orderDto.orderDate(),
+                            orderDto.orderStatus(),
+                            items,
+                            orderDto.total(),
+                            orderDto.paymentId()
+                    );
+                })
+                .toList();
 
         return listOrders;
     }

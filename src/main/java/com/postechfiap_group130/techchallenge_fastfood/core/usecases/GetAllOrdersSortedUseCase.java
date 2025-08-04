@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GetAllOrdersSortedUseCase {
 
-    private static String FINALIZADO = "FINALIZADO";
+    private static final String FINALIZADO = "FINALIZADO";
 
     private final OrderGateway orderGateway;
 

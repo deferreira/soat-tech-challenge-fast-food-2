@@ -11,7 +11,6 @@ import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.entities.PaymentStatusEnum;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -103,23 +102,25 @@ public class DataRepository implements DataSource {
         List<OrderEntity> listOrderEntity = orderJpaRepository.findAll();
         if (listOrderEntity == null) return null;
 
-        List<OrderItemDto> listOrderItemDto = listOrderEntity.stream()
-                .flatMap((orderEntity) -> orderEntity.getItems().stream()
-                        .map((orderItem) -> new OrderItemDto(
-                                orderItem.getId(),
-                                orderItem.getProductId(),
-                                orderItem.getQuantity(),
-                                orderItem.getPrice())))
-                .toList();
-
         List<OrderDto> listOrderDto = listOrderEntity.stream()
-                .map(item -> new OrderDto(
-                        item.getId(),
-                        item.getOrderDate(),
-                        item.getOrderStatus(),
-                        listOrderItemDto,
-                        item.getTotal(),
-                        item.getPaymentId()))
+                .map(orderEntity -> {
+                    List<OrderItemDto> itemDtos = orderEntity.getItems().stream()
+                            .map(orderItem -> new OrderItemDto(
+                                    orderItem.getId(),
+                                    orderItem.getProductId(),
+                                    orderItem.getQuantity(),
+                                    orderItem.getPrice()))
+                            .toList();
+
+                    return new OrderDto(
+                            orderEntity.getId(),
+                            orderEntity.getOrderDate(),
+                            orderEntity.getOrderStatus(),
+                            itemDtos,
+                            orderEntity.getTotal(),
+                            orderEntity.getPaymentId()
+                    );
+                })
                 .toList();
 
         return listOrderDto;
@@ -196,10 +197,10 @@ public class DataRepository implements DataSource {
 
     public PaymentDto updatePaymentStatus(PaymentDto paymentDto) {
         PaymentEntity paymentEntity = new PaymentEntity(
-            paymentDto.id(),
-            paymentDto.orderId(),
-            paymentDto.amount(),
-            paymentDto.status()
+                paymentDto.id(),
+                paymentDto.orderId(),
+                paymentDto.amount(),
+                paymentDto.status()
         );
         PaymentEntity savedEntity = paymentJpaRepository.save(paymentEntity);
 

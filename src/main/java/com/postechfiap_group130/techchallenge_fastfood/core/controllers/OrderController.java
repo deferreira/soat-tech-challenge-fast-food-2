@@ -64,6 +64,6 @@ public class OrderController {
 
         List<Order> listOrders = getAllOrdersSortedUseCase.execute();
 
-        return OrderPresenter.toDto(listOrders);
+        return OrderPresenter.toDtoWithOrderItemDtoList(listOrders);
     }
 }

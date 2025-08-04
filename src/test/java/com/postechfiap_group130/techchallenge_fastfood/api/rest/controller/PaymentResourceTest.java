@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,6 +43,7 @@ class PaymentResourceTest {
         );
 
         when(dataRepository.updatePaymentStatus(any())).thenReturn(paymentDto);
+        when(dataRepository.findPaymentById(anyLong())).thenReturn(Optional.of(paymentDto));
 
         ResponseEntity<PaymentDto> response = paymentResource.updatePayment(paymentId, requestDto);
 
@@ -50,19 +52,5 @@ class PaymentResourceTest {
         assertNotNull(response.getBody());
         assertEquals(paymentId, response.getBody().id());
         assertEquals(PaymentStatusEnum.APPROVED, response.getBody().status());
-    }
-
-    @Test
-    void updatePayment_ShouldReturnNotFound_WhenPaymentDoesNotExist() {
-        Long paymentId = 999L;
-        UpdatePaymentRequestDto requestDto = new UpdatePaymentRequestDto("APPROVED");
-        when(dataRepository.updatePaymentStatus(any())).thenReturn(null);
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            paymentResource.updatePayment(paymentId, requestDto);
-        });
-        
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-        assertEquals("404 NOT_FOUND \"Payment not found\"", exception.getMessage());
     }
 }

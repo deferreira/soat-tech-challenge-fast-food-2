@@ -28,9 +28,4 @@ public class PaymentEntity {
         this.amount = amount;
         this.status = status;
     }
-
-    public PaymentEntity(Long id, PaymentStatusEnum status) {
-        this.id = id;
-        this.status = status;
-    }
 }

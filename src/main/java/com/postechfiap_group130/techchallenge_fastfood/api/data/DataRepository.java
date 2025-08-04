@@ -196,6 +196,8 @@ public class DataRepository implements DataSource {
     public PaymentDto updatePaymentStatus(PaymentDto paymentDto) {
         PaymentEntity paymentEntity = new PaymentEntity(
             paymentDto.id(),
+            paymentDto.orderId(),
+            paymentDto.amount(),
             paymentDto.status()
         );
         PaymentEntity savedEntity = paymentJpaRepository.save(paymentEntity);

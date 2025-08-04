@@ -87,6 +87,7 @@ class PaymentControllerTest {
         );
         
         when(dataSource.updatePaymentStatus(any())).thenReturn(expectedDto);
+        when(dataSource.findPaymentById(paymentId)).thenReturn(Optional.of(expectedDto));
 
         PaymentDto result = paymentController.updatePayment(paymentId, requestDto);
 

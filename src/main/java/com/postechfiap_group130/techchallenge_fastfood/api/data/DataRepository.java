@@ -192,27 +192,4 @@ public class DataRepository implements DataSource {
                         entity.getStatus()
                 ));
     }
-
-    @Override
-    public OrderDto getOrderById(Long id) {
-
-        OrderEntity orderEntity = orderJpaRepository.findById(id).orElse(null);
-
-        if (orderEntity == null) return null;
-
-        List<OrderItemDto> orderItemDtoList = orderEntity.getItems().stream()
-                .map(item -> new OrderItemDto(
-                        item.getId(),
-                        item.getProductId(),
-                        item.getQuantity(),
-                        item.getPrice()))
-                .toList();
-
-        return new OrderDto(
-                orderEntity.getId(),
-                orderEntity.getOrderDate(),
-                orderEntity.getOrderStatus(),
-                orderItemDtoList,
-                orderEntity.getTotal());
-    }
 }

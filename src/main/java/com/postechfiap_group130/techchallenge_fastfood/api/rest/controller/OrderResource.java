@@ -46,4 +46,13 @@ public class OrderResource {
 
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
+
+    @PatchMapping("/{orderId}/status/{orderStatus}")
+    public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
+        OrderController orderController = new OrderController(dataRepository);
+
+        OrderDto response = orderController.updateStatus(orderId, orderStatus);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
 }

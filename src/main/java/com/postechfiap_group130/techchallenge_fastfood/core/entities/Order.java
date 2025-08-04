@@ -3,8 +3,10 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -38,5 +40,18 @@ public class Order {
         return items.stream()
                 .map(OrderItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updateStatus(String status) {
+        if(Arrays.stream(OrderStatusEnum.values())
+                .noneMatch(value -> value.toString().equals(status))) {
+            throw new IllegalArgumentException("Order status not recognized");
+        }
+
+        if(status.equalsIgnoreCase(this.orderStatus.name())) {
+            throw new ErrorException("Order status is the same");
+        }
+
+        this.orderStatus = OrderStatusEnum.valueOf(status);
     }
 }

@@ -43,4 +43,14 @@ public class OrderPresenter {
                 order.getTotal(),
                 order.getPaymentId());
     }
+
+    public static OrderDto toDtoWithoutOrderItems(Order order) {
+        return new OrderDto(
+                order.getId(),
+                order.getOrderDate(),
+                order.getOrderStatus(),
+                List.of(),
+                order.getTotal(),
+                order.getPaymentId());
+    }
 }

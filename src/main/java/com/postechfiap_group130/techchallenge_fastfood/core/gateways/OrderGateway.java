@@ -53,7 +53,7 @@ public class OrderGateway implements IOrderGateway {
                 .toList();
 
         OrderDto orderDto = new OrderDto(
-                null,
+                order.getId(),
                 order.getOrderDate(),
                 order.getOrderStatus(),
                 orderItemDtoList,
@@ -69,6 +69,9 @@ public class OrderGateway implements IOrderGateway {
     @Override
     public Order findById(Long orderId) {
         OrderDto order = dataSource.findOrderById(orderId);
+
+        if (order == null) return null;
+
         return mapToOrder(order);
     }
 
@@ -81,9 +84,14 @@ public class OrderGateway implements IOrderGateway {
                         itemDto.price()))
                 .toList();
 
-        Order order = new Order(orderItems);
-        order.setId(orderDto.id());
-        order.setPaymentId(orderDto.paymentId());
+        Order order = new Order(
+                orderDto.id(),
+                orderDto.orderDate(),
+                orderDto.orderStatus(),
+                orderItems,
+                orderDto.total(),
+                orderDto.paymentId());
+
         return order;
     }
 }

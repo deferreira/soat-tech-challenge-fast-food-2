@@ -170,4 +170,8 @@ public class DataRepository implements DataSource {
                 .toList();
         return productsDto;
     }
+    @Override
+    public Boolean existsByName(String name) {
+        return productJpaRepository.existsByName(name);
+    }
 }

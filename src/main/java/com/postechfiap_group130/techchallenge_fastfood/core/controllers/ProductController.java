@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
@@ -21,10 +22,13 @@ public class ProductController {
         this.dataSource = dataSource;
     }
 
-    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) throws Exception {
         ProductGateway productGateway = new ProductGateway(dataSource);
+        Boolean existProduct = productGateway.existsByName(productRequestDto.getName());
+        if (existProduct) {
+            throw new DuplicateProductException("Product already registered in the database!");
+        }
         RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(productGateway);
-
         Product product = registerProductUseCase.execute(productRequestDto);
         return ProductPresenter.toDto(product);
     }
@@ -32,7 +36,6 @@ public class ProductController {
     public ProductResponseDto updateProduct(ProductRequestDto productRequestDto) {
         ProductGateway productGateway = new ProductGateway(dataSource);
         RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(productGateway);
-
         Product product = registerProductUseCase.execute(productRequestDto);
         return ProductPresenter.toDto(product);
     }
@@ -40,7 +43,6 @@ public class ProductController {
      public List<ProductResponseDto> getProductsByCategory(Category category) {
         ProductGateway productGateway = new ProductGateway(dataSource);
         GetProductsByCategoryUseCase getProductsByCategoryUseCase = new GetProductsByCategoryUseCase(productGateway);
-
         List<Product> products = getProductsByCategoryUseCase.execute(category);
         return ProductPresenter.toDtoList(products);
     }

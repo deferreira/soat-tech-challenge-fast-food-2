@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.ProductController;
+import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
+import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.InvalidPropertyProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
@@ -26,17 +28,23 @@ public class ProductResource {
     @GetMapping("/category/{category}")
     public ResponseEntity<?> GetProductByCategory(@PathVariable("category") Category category){
         ProductController productController = new ProductController(dataRepository);
-        List<ProductResponseDto> products = productController.getProductsByCategory(category);
-        return products == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null) :
-                            ResponseEntity.status(HttpStatus.OK).body(products);
+        List<ProductResponseDto> productResponseDto = productController.getProductsByCategory(category);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody ProductRequestDto produtoDto) {
-        ProductController productController = new ProductController(dataRepository);
-        ProductResponseDto productResponseDto = productController.createProduct(produtoDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productResponseDto);
-    
+    public ResponseEntity<?> create(@RequestBody ProductRequestDto produtoDto) throws Exception {
+        try {
+            ProductController productController = new ProductController(dataRepository);
+            ProductResponseDto productResponseDto = productController.createProduct(produtoDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(productResponseDto);    
+        } catch (InvalidPropertyProductException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (DuplicateProductException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     
     @PutMapping

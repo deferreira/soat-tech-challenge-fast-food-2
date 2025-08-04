@@ -20,4 +20,5 @@ public interface DataSource {
     ProductDto findById(Long id);
     List<ProductDto> findAll();
     List<ProductDto> findByCategory(ProductCategoryDto ProductCategoryDto);
+    Boolean existsByName(String name);
 }

@@ -67,4 +67,9 @@ public class ProductGateway implements IProductGateway{
                             )).toList();
         return products;
     }
+
+    @Override
+    public Boolean existsByName(String name) {
+        return dataSource.existsByName(name);
+    }
 }

@@ -11,4 +11,5 @@ public interface IProductGateway {
     Product findById(Long id);
     List<Product> findAll();
     List<Product> findByCategory(Category category);
+    Boolean existsByName(String name);
 }

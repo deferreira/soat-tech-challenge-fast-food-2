@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -45,6 +46,10 @@ public class Order {
         if(Arrays.stream(OrderStatusEnum.values())
                 .noneMatch(value -> value.toString().equals(status))) {
             throw new IllegalArgumentException("Order status not recognized");
+        }
+
+        if(status.equalsIgnoreCase(this.orderStatus.name())) {
+            throw new ErrorException("Order status is the same");
         }
 
         this.orderStatus = OrderStatusEnum.valueOf(status);

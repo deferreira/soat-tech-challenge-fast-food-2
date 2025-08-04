@@ -23,4 +23,6 @@ public interface DataSource {
     PaymentDto savePayment(PaymentDto paymentDto);
 
     Optional<PaymentDto> findPaymentById(Long paymentId);
+
+    PaymentDto updatePaymentStatus(PaymentDto paymentDto);
 }

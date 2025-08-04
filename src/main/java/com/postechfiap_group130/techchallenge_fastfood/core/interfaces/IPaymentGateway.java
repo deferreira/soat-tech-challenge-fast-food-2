@@ -10,4 +10,5 @@ public interface IPaymentGateway {
     Payment save(Payment payment);
     Optional<Payment> findById(Long paymentId);
     Payment checkPaymentStatus(Long paymentId);
+    Payment updatePaymentStatus(Payment payment);
 } 

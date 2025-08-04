@@ -45,6 +45,23 @@ public class PaymentGateway implements IPaymentGateway {
         Optional<Payment> payment = findById(paymentId);
         return payment.orElse(null);
     }
+
+    @Override
+    public Payment updatePaymentStatus(Payment payment) {
+        Payment findPayment = findById(payment.getId()).orElse(null);
+        if (findPayment != null) {
+            PaymentDto paymentDto = new PaymentDto(
+                payment.getId(),
+                findPayment.getOrderId(),
+                findPayment.getAmount(),
+                payment.getStatus()
+            );
+
+            PaymentDto updatedPayment = dataSource.updatePaymentStatus(paymentDto);
+            return mapToPayment(updatedPayment);
+        }
+        return null;
+    }
     
     private Payment mapToPayment(PaymentDto paymentDto) {
         return new Payment(

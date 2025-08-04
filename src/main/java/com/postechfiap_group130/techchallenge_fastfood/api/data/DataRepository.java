@@ -161,7 +161,7 @@ public class DataRepository implements DataSource {
         PaymentEntity paymentEntity = new PaymentEntity(
                 paymentDto.orderId(),
                 paymentDto.amount(),
-                paymentDto.status() != null ? paymentDto.status() : PaymentStatusEnum.PENDING
+                paymentDto.status()
         );
 
         if (paymentDto.id() != null) {
@@ -191,5 +191,22 @@ public class DataRepository implements DataSource {
                         entity.getAmount(),
                         entity.getStatus()
                 ));
+    }
+
+    public PaymentDto updatePaymentStatus(PaymentDto paymentDto) {
+        PaymentEntity paymentEntity = new PaymentEntity(
+            paymentDto.id(),
+            paymentDto.orderId(),
+            paymentDto.amount(),
+            paymentDto.status()
+        );
+        PaymentEntity savedEntity = paymentJpaRepository.save(paymentEntity);
+
+        return new PaymentDto(
+                savedEntity.getId(),
+                savedEntity.getOrderId(),
+                savedEntity.getAmount(),
+                savedEntity.getStatus()
+        );
     }
 }

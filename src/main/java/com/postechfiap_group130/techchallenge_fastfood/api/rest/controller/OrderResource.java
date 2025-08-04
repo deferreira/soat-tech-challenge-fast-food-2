@@ -14,15 +14,6 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderResource {
 
-    private int getStatusPriority(String status) {
-        return switch (status.toUpperCase()) {
-            case "PRONTO" -> 1;
-            case "EM_PREPARACAO" -> 2;
-            case "RECEBIDO" -> 3;
-            default -> 99; // qualquer outro status vem por último
-        };
-    }
-
     private final DataRepository dataRepository;
 
     public OrderResource(DataRepository dataRepository) {
@@ -41,12 +32,10 @@ public class OrderResource {
     @GetMapping
     public ResponseEntity<List<OrderDto>> getOrders() {
         OrderController orderController = new OrderController(dataRepository);
-        List<OrderDto> ordersList = orderController.getAllOrders();
 
-        GetAllOrdersUseCase useCase = new GetAllOrdersUseCase();
-        List<OrderDto> sortedFilteredOrders = useCase.execute(ordersList);
+        List<OrderDto> result = orderController.getAllOrdersSorted();
 
-        return ResponseEntity.status(HttpStatus.OK).body(sortedFilteredOrders);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
     }
 }
 

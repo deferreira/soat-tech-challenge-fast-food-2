@@ -12,12 +12,4 @@ public record OrderDto(
         OrderStatusEnum orderStatus,
         List<OrderItemDto> listOrderItemDto,
         BigDecimal total) {
-
-    public String getStatus() {
-        return orderStatus != null ? orderStatus.name() : null;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return orderDate;
-    }
 }

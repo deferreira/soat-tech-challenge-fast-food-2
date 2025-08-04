@@ -51,8 +51,8 @@ public class OrderResource {
     public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
         OrderController orderController = new OrderController(dataRepository);
 
-        OrderDto order = orderController.updateStatus(orderId, orderStatus);
+        OrderDto response = orderController.updateStatus(orderId, orderStatus);
 
-        return ResponseEntity.status(HttpStatus.OK).body(order);
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 }

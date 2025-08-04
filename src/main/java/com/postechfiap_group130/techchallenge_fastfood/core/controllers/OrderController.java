@@ -45,7 +45,7 @@ public class OrderController {
 
         Order result = updateOrderStatusUseCase.execute(orderId, orderStatus);
 
-        return OrderPresenter.toDto(result);
+        return OrderPresenter.toDtoWithoutOrderItems(result);
     }
 
     public OrderDto findById(Long orderId) {

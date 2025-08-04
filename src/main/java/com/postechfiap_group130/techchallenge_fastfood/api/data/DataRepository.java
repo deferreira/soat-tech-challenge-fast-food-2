@@ -161,7 +161,7 @@ public class DataRepository implements DataSource {
         PaymentEntity paymentEntity = new PaymentEntity(
                 paymentDto.orderId(),
                 paymentDto.amount(),
-                paymentDto.status() != null ? paymentDto.status() : PaymentStatusEnum.PENDING
+                paymentDto.status()
         );
 
         if (paymentDto.id() != null) {

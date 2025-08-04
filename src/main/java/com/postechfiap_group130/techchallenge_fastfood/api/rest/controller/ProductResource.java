@@ -12,6 +12,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.Inv
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdateProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
 
 @RestController
@@ -26,10 +27,16 @@ public class ProductResource {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<?> GetProductByCategory(@PathVariable("category") Category category){
-        ProductController productController = new ProductController(dataRepository);
-        List<ProductResponseDto> productResponseDto = productController.getProductsByCategory(category);
-        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
+    public ResponseEntity<?> GetProductByCategory(@RequestParam Category category){
+        try {
+            ProductController productController = new ProductController(dataRepository);
+            List<ProductResponseDto> productResponseDto = productController.getProductsByCategory(category);
+            return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);    
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Category");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping("/create")
@@ -47,10 +54,17 @@ public class ProductResource {
         }
     }
     
-    @PutMapping
-    public ResponseEntity<?> updateProduct(@RequestBody ProductRequestDto produtoDto) {
-        ProductController productController = new ProductController(dataRepository);
-        productController.updateProduct(produtoDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProduct(@RequestBody UpdateProductRequestDto updateProdutoDto) throws InvalidPropertyProductException {
+        try {
+            ProductController productController = new ProductController(dataRepository);
+            productController.updateProduct(updateProdutoDto);
+            return ResponseEntity.status(HttpStatus.OK).body(null);    
+        }  catch (InvalidPropertyProductException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        
     }
 }

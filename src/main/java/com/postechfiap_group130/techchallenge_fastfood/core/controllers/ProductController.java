@@ -3,8 +3,10 @@ package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 import java.util.List;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdateProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
+import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.InvalidPropertyProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 
@@ -13,6 +15,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSourc
 import com.postechfiap_group130.techchallenge_fastfood.core.presenters.ProductPresenter;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetProductsByCategoryUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.RegisterProductUseCase;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.UpdateProductUseCase;
 
 public class ProductController {
 
@@ -26,17 +29,17 @@ public class ProductController {
         ProductGateway productGateway = new ProductGateway(dataSource);
         Boolean existProduct = productGateway.existsByName(productRequestDto.getName());
         if (existProduct) {
-            throw new DuplicateProductException("Product already registered in the database!");
+            throw new DuplicateProductException("Product name already registered in the database!");
         }
         RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(productGateway);
         Product product = registerProductUseCase.execute(productRequestDto);
         return ProductPresenter.toDto(product);
     }
 
-    public ProductResponseDto updateProduct(ProductRequestDto productRequestDto) {
+    public ProductResponseDto updateProduct(UpdateProductRequestDto updateProductRequestDto) throws InvalidPropertyProductException{
         ProductGateway productGateway = new ProductGateway(dataSource);
-        RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(productGateway);
-        Product product = registerProductUseCase.execute(productRequestDto);
+        UpdateProductUseCase updateProductUseCase = new UpdateProductUseCase(productGateway);
+        Product product = updateProductUseCase.execute(updateProductRequestDto);
         return ProductPresenter.toDto(product);
     }
 

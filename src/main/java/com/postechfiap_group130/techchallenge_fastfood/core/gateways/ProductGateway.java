@@ -13,7 +13,7 @@ public class ProductGateway implements IProductGateway{
 
     private final DataSource dataSource;
     
-    public ProductGateway(DataSource dataSource) {
+    public ProductGateway(DataSource dataSource){
         this.dataSource = dataSource;
     }
     @Override
@@ -24,9 +24,10 @@ public class ProductGateway implements IProductGateway{
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public Product updateProduct(Product product) {
         ProductDto productDto = new ProductDto(0L, product.getName(), product.getDescription(), product.getPrice(), product.getCategory(), product.getAvaliable());
-        dataSource.updateProduct(productDto);
+        productDto = dataSource.updateProduct(productDto);
+        return new Product(productDto.id(),productDto.name(),productDto.description(),productDto.price(),productDto.category(),productDto.avaliable());
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface DataSource {
 
     //Products
     ProductDto saveProduct(ProductDto productDto);
-    void updateProduct(ProductDto productDto);
+    ProductDto updateProduct(ProductDto productDto);
     ProductDto findById(Long id);
     List<ProductDto> findAll();
     List<ProductDto> findByCategory(ProductCategoryDto ProductCategoryDto);

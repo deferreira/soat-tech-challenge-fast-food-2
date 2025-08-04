@@ -117,8 +117,9 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void updateProduct(ProductDto productDto) {
+    public ProductDto updateProduct(ProductDto productDto) {
         this.saveProduct(productDto);
+        return productDto;
     }
 
     @Override

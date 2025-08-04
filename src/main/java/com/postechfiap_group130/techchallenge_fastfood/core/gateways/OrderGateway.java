@@ -53,7 +53,7 @@ public class OrderGateway implements IOrderGateway {
                 .toList();
 
         OrderDto orderDto = new OrderDto(
-                null,
+                order.getId(),
                 order.getOrderDate(),
                 order.getOrderStatus(),
                 orderItemDtoList,

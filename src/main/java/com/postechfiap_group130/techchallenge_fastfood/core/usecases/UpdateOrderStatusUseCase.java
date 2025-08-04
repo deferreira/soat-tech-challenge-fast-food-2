@@ -14,7 +14,7 @@ public class UpdateOrderStatusUseCase {
 
     public Order execute(Long orderId, String orderStatus) {
 
-        Order order = orderGateway.getOrderById(orderId);
+        Order order = orderGateway.findById(orderId);
 
         if (order == null) {
             throw new ErrorException("Order not found with id " + orderId);

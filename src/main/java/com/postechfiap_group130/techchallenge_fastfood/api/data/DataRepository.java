@@ -129,6 +129,7 @@ public class DataRepository implements DataSource {
     public OrderDto saveOrder(OrderDto orderDto) {
         OrderEntity orderEntity = new OrderEntity();
 
+        orderEntity.setId(orderDto.id());
         orderEntity.setOrderDate(orderDto.orderDate());
         orderEntity.setOrderStatus(orderDto.orderStatus());
         orderEntity.setTotal(orderDto.total());

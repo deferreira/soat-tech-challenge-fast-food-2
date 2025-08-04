@@ -24,7 +24,7 @@ public class OrderGateway implements IOrderGateway {
         List<OrderItem> listOrderItems = result.stream()
                 .flatMap((orderDto -> orderDto.listOrderItemDto().stream()
                         .map(orderItemDto -> new OrderItem(
-                                orderItemDto.orderId(),
+                                orderItemDto.id(),
                                 orderItemDto.productId(),
                                 orderItemDto.quantity(),
                                 orderItemDto.price()))))
@@ -36,7 +36,8 @@ public class OrderGateway implements IOrderGateway {
                         item.orderDate(),
                         item.orderStatus(),
                         listOrderItems,
-                        item.total()
+                        item.total(),
+                        item.paymentId()
                 )).toList();
 
         return listOrders;
@@ -56,7 +57,8 @@ public class OrderGateway implements IOrderGateway {
                 order.getOrderDate(),
                 order.getOrderStatus(),
                 orderItemDtoList,
-                order.getTotal());
+                order.getTotal(),
+                order.getPaymentId());
 
         OrderDto saveOrder = dataSource.saveOrder(orderDto);
         order.setId(saveOrder.id());
@@ -65,20 +67,40 @@ public class OrderGateway implements IOrderGateway {
     }
 
     @Override
-    public Order getOrderById(Long id) {
-        OrderDto order = dataSource.getOrderById(id);
-
-        if (order == null) return null;
-
-        List<OrderItem> orderItemList = order.listOrderItemDto().stream()
-                .map(item -> new OrderItem(
-                        item.orderId(),
-                        item.productId(),
-                        item.quantity(),
-                        item.price()))
-                .toList();
-
-        return new Order(order.id(), order.orderDate(), order.orderStatus(), orderItemList, order.total());
+    public Order findById(Long orderId) {
+        OrderDto order = dataSource.findOrderById(orderId);
+        return mapToOrder(order);
     }
 
+    private Order mapToOrder(OrderDto orderDto) {
+        List<OrderItem> orderItems = orderDto.listOrderItemDto().stream()
+                .map(itemDto -> new OrderItem(
+                        itemDto.id(),
+                        itemDto.productId(),
+                        itemDto.quantity(),
+                        itemDto.price()))
+                .toList();
+
+        Order order = new Order(orderItems);
+        order.setId(orderDto.id());
+        order.setPaymentId(orderDto.paymentId());
+        return order;
+    }
+
+//    @Override
+//    public Order getOrderById(Long id) {
+//        OrderDto order = dataSource.getOrderById(id);
+//
+//        if (order == null) return null;
+//
+//        List<OrderItem> orderItemList = order.listOrderItemDto().stream()
+//                .map(item -> new OrderItem(
+//                        item.orderId(),
+//                        item.productId(),
+//                        item.quantity(),
+//                        item.price()))
+//                .toList();
+//
+//        return new Order(order.id(), order.orderDate(), order.orderStatus(), orderItemList, order.total());
+//    }
 }

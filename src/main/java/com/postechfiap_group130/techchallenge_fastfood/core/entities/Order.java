@@ -3,8 +3,10 @@ package com.postechfiap_group130.techchallenge_fastfood.core.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
+import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,11 +18,12 @@ public class Order {
     private OrderStatusEnum orderStatus;
     private List<OrderItem> items;
     private BigDecimal total;
+    private Long paymentId;
 
     public Order(List<OrderItem> items) {
         this.items = items;
         this.orderDate = LocalDateTime.now();
-        this.orderStatus = OrderStatusEnum.PENDING;
+        this.orderStatus = OrderStatusEnum.CREATED;
         this.total = calculateTotal(); // soma dos itens * quantidade
     }
 
@@ -29,9 +32,26 @@ public class Order {
         this.id = id;
     }
 
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
+    }
+
     public BigDecimal calculateTotal() {
         return items.stream()
                 .map(OrderItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updateStatus(String status) {
+        if(Arrays.stream(OrderStatusEnum.values())
+                .noneMatch(value -> value.toString().equals(status))) {
+            throw new IllegalArgumentException("Order status not recognized");
+        }
+
+        if(status.equalsIgnoreCase(this.orderStatus.name())) {
+            throw new ErrorException("Order status is the same");
+        }
+
+        this.orderStatus = OrderStatusEnum.valueOf(status);
     }
 }

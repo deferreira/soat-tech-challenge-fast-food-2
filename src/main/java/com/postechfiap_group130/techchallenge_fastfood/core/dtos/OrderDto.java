@@ -11,5 +11,6 @@ public record OrderDto(
         LocalDateTime orderDate,
         OrderStatusEnum orderStatus,
         List<OrderItemDto> listOrderItemDto,
-        BigDecimal total) {
-}
+        BigDecimal total,
+        Long paymentId
+    ) {}

@@ -37,5 +37,23 @@ public class OrderResource {
 
         return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
+        // TODO: implement id validation
+        OrderController orderController = new OrderController(dataRepository);
+        OrderDto response = orderController.findById(orderId);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
+    @PatchMapping("/{orderId}/status/{orderStatus}")
+    public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
+        OrderController orderController = new OrderController(dataRepository);
+
+        OrderDto response = orderController.updateStatus(orderId, orderStatus);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
 }
 

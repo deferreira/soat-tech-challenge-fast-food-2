@@ -4,11 +4,13 @@ import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderReq
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.CheckoutUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetAllOrdersSortedUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetOrdersUseCase;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.FindOrderByIdUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import com.postechfiap_group130.techchallenge_fastfood.core.presenters.OrderPresenter;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.UpdateOrderStatusUseCase;
 
 import java.util.List;
 
@@ -36,6 +38,24 @@ public class OrderController {
         Order result = checkoutUseCase.execute(orderRequestDto);
 
         return OrderPresenter.toDto(result);
+    }
+
+    public OrderDto updateStatus(Long orderId, String orderStatus) {
+        OrderGateway orderGateway = new OrderGateway(dataSource);
+        UpdateOrderStatusUseCase updateOrderStatusUseCase = new UpdateOrderStatusUseCase(orderGateway);
+
+        Order result = updateOrderStatusUseCase.execute(orderId, orderStatus);
+
+        return OrderPresenter.toDtoWithoutOrderItems(result);
+    }
+
+    public OrderDto findById(Long orderId) {
+        OrderGateway orderGateway = new OrderGateway(dataSource);
+        FindOrderByIdUseCase findOrderByIdUseCase = new FindOrderByIdUseCase(orderGateway);
+
+        Order order = findOrderByIdUseCase.execute(orderId);
+
+        return OrderPresenter.toDto(order);
     }
 
     public List<OrderDto> getAllOrdersSorted() {

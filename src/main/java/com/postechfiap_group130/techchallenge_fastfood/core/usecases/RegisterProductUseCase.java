@@ -1,7 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
-import com.postechfiap_group130.techchallenge_fastfood.application.exception.InvalidPropertyProductException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.InvalidPropertyProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.ProductGateway;
 

@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.domain.validation;
+package com.postechfiap_group130.techchallenge_fastfood.application.validation;
 
 public class CpfValidator {
     

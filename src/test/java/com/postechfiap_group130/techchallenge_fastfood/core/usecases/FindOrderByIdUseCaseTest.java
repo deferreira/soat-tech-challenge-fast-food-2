@@ -4,7 +4,7 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderStatusEnum;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
-import com.postechfiap_group130.techchallenge_fastfood.application.exception.ErrorException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.ErrorException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

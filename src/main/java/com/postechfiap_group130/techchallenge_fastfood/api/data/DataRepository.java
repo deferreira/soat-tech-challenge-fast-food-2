@@ -7,11 +7,14 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderJpaRepo
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.OrderItemEntity;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.PaymentEntity;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.PaymentJpaRepository;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductEntity;
+import com.postechfiap_group130.techchallenge_fastfood.api.data.jpa.ProductJpaRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.PaymentDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.entities.PaymentStatusEnum;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.ProductCategoryDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.ProductDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -25,16 +28,19 @@ public class DataRepository implements DataSource {
     private final CustomerJpaRepository customerJpaRepository;
     private final OrderJpaRepository orderJpaRepository;
     private final PaymentJpaRepository paymentJpaRepository;
+    private final ProductJpaRepository productJpaRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataRepository(
             CustomerJpaRepository customerJpaRepository,
             OrderJpaRepository orderJpaRepository,
             PaymentJpaRepository paymentJpaRepository,
+            ProductJpaRepository productJpaRepository,
             PasswordEncoder passwordEncoder) {
         this.customerJpaRepository = customerJpaRepository;
         this.orderJpaRepository = orderJpaRepository;
         this.paymentJpaRepository = paymentJpaRepository;
+        this.productJpaRepository = productJpaRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -103,23 +109,25 @@ public class DataRepository implements DataSource {
         List<OrderEntity> listOrderEntity = orderJpaRepository.findAll();
         if (listOrderEntity == null) return null;
 
-        List<OrderItemDto> listOrderItemDto = listOrderEntity.stream()
-                .flatMap((orderEntity) -> orderEntity.getItems().stream()
-                        .map((orderItem) -> new OrderItemDto(
-                                orderItem.getId(),
-                                orderItem.getProductId(),
-                                orderItem.getQuantity(),
-                                orderItem.getPrice())))
-                .toList();
-
         List<OrderDto> listOrderDto = listOrderEntity.stream()
-                .map(item -> new OrderDto(
-                        item.getId(),
-                        item.getOrderDate(),
-                        item.getOrderStatus(),
-                        listOrderItemDto,
-                        item.getTotal(),
-                        item.getPaymentId()))
+                .map(orderEntity -> {
+                    List<OrderItemDto> itemDtos = orderEntity.getItems().stream()
+                            .map(orderItem -> new OrderItemDto(
+                                    orderItem.getId(),
+                                    orderItem.getProductId(),
+                                    orderItem.getQuantity(),
+                                    orderItem.getPrice()))
+                            .toList();
+
+                    return new OrderDto(
+                            orderEntity.getId(),
+                            orderEntity.getOrderDate(),
+                            orderEntity.getOrderStatus(),
+                            itemDtos,
+                            orderEntity.getTotal(),
+                            orderEntity.getPaymentId()
+                    );
+                })
                 .toList();
 
         return listOrderDto;
@@ -196,10 +204,10 @@ public class DataRepository implements DataSource {
 
     public PaymentDto updatePaymentStatus(PaymentDto paymentDto) {
         PaymentEntity paymentEntity = new PaymentEntity(
-            paymentDto.id(),
-            paymentDto.orderId(),
-            paymentDto.amount(),
-            paymentDto.status()
+                paymentDto.id(),
+                paymentDto.orderId(),
+                paymentDto.amount(),
+                paymentDto.status()
         );
         PaymentEntity savedEntity = paymentJpaRepository.save(paymentEntity);
 
@@ -209,5 +217,87 @@ public class DataRepository implements DataSource {
                 savedEntity.getAmount(),
                 savedEntity.getStatus()
         );
+    }
+
+    @Override
+    public ProductDto saveProduct(ProductDto productDto) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(productDto.id());
+        productEntity.setName(productDto.name());
+        productEntity.setDescription(productDto.description());
+        productEntity.setPrice(productDto.price());
+        productEntity.setCategory(productDto.category());
+        productEntity.setAvaliable(productDto.avaliable());
+
+        productEntity = productJpaRepository.save(productEntity);
+
+        return new ProductDto(
+                productEntity.getId(),
+                productEntity.getName(),
+                productEntity.getDescription(),
+                productEntity.getPrice(),
+                productEntity.getCategory(),
+                productEntity.getAvaliable()
+        );
+    }
+
+    @Override
+    public ProductDto updateProduct(ProductDto productDto) {
+        this.saveProduct(productDto);
+        return productDto;
+    }
+
+    @Override
+    public ProductDto findById(Long id) {
+        java.util.Optional<ProductEntity> entity = productJpaRepository.findById(id);
+
+        if (entity.isEmpty()) return null;
+
+        ProductDto productDto = new ProductDto(
+                entity.get().getId(),
+                entity.get().getName(),
+                entity.get().getDescription(),
+                entity.get().getPrice(),
+                entity.get().getCategory(),
+                entity.get().getAvaliable());
+
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> findAll() {
+
+        List<ProductEntity> products = productJpaRepository.findAll();
+        List<ProductDto> productsDto = products.stream()
+                .map(item -> new ProductDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getCategory(),
+                        item.getAvaliable()
+                ))
+                .toList();
+        return productsDto;
+    }
+
+    @Override
+    public List<ProductDto> findByCategory(ProductCategoryDto ProductCategoryDto) {
+        List<ProductEntity> products = productJpaRepository.findByCategory(ProductCategoryDto.category());
+        List<ProductDto> productsDto = products.stream()
+                .map(item -> new ProductDto(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getPrice(),
+                        item.getCategory(),
+                        item.getAvaliable()
+                ))
+                .toList();
+        return productsDto;
+    }
+    @Override
+    public Boolean existsByName(String name) {
+        return productJpaRepository.existsByName(name);
     }
 }

@@ -2,6 +2,7 @@ package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.CheckoutUseCase;
+import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetAllOrdersSortedUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetOrdersUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.FindOrderByIdUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
@@ -55,5 +56,14 @@ public class OrderController {
         Order order = findOrderByIdUseCase.execute(orderId);
 
         return OrderPresenter.toDto(order);
+    }
+
+    public List<OrderDto> getAllOrdersSorted() {
+        OrderGateway orderGateway = new OrderGateway(dataSource);
+        GetAllOrdersSortedUseCase getAllOrdersSortedUseCase = new GetAllOrdersSortedUseCase(orderGateway);
+
+        List<Order> listOrders = getAllOrdersSortedUseCase.execute();
+
+        return OrderPresenter.toDtoWithOrderItemDtoList(listOrders);
     }
 }

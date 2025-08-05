@@ -33,9 +33,9 @@ public class OrderResource {
     public ResponseEntity<List<OrderDto>> getOrders() {
         OrderController orderController = new OrderController(dataRepository);
 
-        List<OrderDto> ordersList = orderController.getAllOrders();
+        List<OrderDto> result = orderController.getAllOrdersSorted();
 
-        return ResponseEntity.status(HttpStatus.OK).body(ordersList);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{orderId}")
@@ -56,3 +56,4 @@ public class OrderResource {
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 }
+

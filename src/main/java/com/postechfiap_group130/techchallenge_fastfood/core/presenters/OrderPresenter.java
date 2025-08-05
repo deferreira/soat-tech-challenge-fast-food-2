@@ -53,4 +53,30 @@ public class OrderPresenter {
                 order.getTotal(),
                 order.getPaymentId());
     }
+
+    public static List<OrderDto> toDtoWithOrderItemDtoList(List<Order> listOrder) {
+        List<OrderDto> orderDtoList = listOrder.stream()
+                .map(order -> {
+                    List<OrderItemDto> items = order.getItems().stream()
+                            .map(orderItem -> new OrderItemDto(
+                                    orderItem.getId(),
+                                    orderItem.getProductId(),
+                                    orderItem.getQuantity(),
+                                    orderItem.getPrice()
+                            ))
+                            .toList();
+
+                    return new OrderDto(
+                            order.getId(),
+                            order.getOrderDate(),
+                            order.getOrderStatus(),
+                            items,
+                            order.getTotal(),
+                            order.getPaymentId()
+                    );
+                })
+                .toList();
+
+        return orderDtoList;
+    }
 }

@@ -1,12 +1,12 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.OrderRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.ErrorException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.ProductGateway;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 
 import java.util.List;
 import java.util.stream.Collectors;

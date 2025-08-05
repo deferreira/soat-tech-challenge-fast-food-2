@@ -27,7 +27,7 @@ public class ProductResource {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<?> GetProductByCategory(@RequestParam Category category){
+    public ResponseEntity<?> GetProductByCategory(@PathVariable Category category) {
         try {
             ProductController productController = new ProductController(dataRepository);
             List<ProductResponseDto> productResponseDto = productController.getProductsByCategory(category);

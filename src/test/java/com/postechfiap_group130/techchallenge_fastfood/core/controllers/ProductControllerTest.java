@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,15 +14,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.CustomerRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdateProductRequestDto;
-import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.CustomerResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 
 class ProductControllerTest {
     

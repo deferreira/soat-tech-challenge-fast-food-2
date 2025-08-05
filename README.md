@@ -77,3 +77,35 @@ Os pedidos podem ter os seguintes status:
 - EM_PREPARACAO
 - PRONTO
 - FINALIZADO
+
+## Arquitetura de negócio
+
+1. Order
+- Fluxo de Checkout (Criar Pedido)
+Order
+
+- Fluxo de Busca de Pedidos
+
+- Fluxo de Busca de Pedidos por ID
+
+- Fluxo de Atualização de Status de Pedido
+
+
+2. Customer
+-Fluxo de Criação de Cliente
+
+- Fluxo de Consulta de Cliente por CPF
+
+3. Product
+- Fluxo de Consulta de Produto por Categoria
+
+- Fluxo de Criação de Produto
+
+- Fluxo de Atualização de Produto
+
+4. Payment
+- Fluxo de Consulta de Status de Pagamento
+
+- Fluxo de Criação de Pagamento
+
+- Recebe notificação e Atualiza Status de Pagamento e da Ordem

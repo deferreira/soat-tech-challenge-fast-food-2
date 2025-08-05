@@ -78,7 +78,6 @@ Os pedidos podem ter os seguintes status:
 - PRONTO
 - FINALIZADO
 
-
 ## Arquitetura Kubernetes
 
 ![Arquitetura Kubernetes ](Arquitetura_Kubernetes.png)

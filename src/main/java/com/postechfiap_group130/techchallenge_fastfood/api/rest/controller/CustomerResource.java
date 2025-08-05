@@ -4,8 +4,8 @@ import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.Cust
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.CustomerResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.CustomerController;
-import com.postechfiap_group130.techchallenge_fastfood.domain.validation.CpfValidator;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.InvalidCpfException;
+import com.postechfiap_group130.techchallenge_fastfood.application.validation.CpfValidator;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.InvalidCpfException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,7 @@ import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.Cust
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.CustomerResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.ErrorException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

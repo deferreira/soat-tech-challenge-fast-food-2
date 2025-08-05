@@ -4,11 +4,10 @@ import java.math.BigDecimal;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 
-public record ProductDto(Long id, String name, String description, BigDecimal price, 
-                         Category category, boolean avaliable) {
-    public ProductDto(Long id, String name, String description, BigDecimal price, 
-                         Category category){
-        this(id,name,description, price, category, true);
-                         }
-
+public record ProductDto(Long id,
+                         String name,
+                         String description,
+                         BigDecimal price,
+                         Category category,
+                         boolean avaliable) {
 }

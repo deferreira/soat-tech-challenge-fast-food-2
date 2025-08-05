@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.domain.validation;
+package com.postechfiap_group130.techchallenge_fastfood.application.validation;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.ObjectPredicate.nullValue;

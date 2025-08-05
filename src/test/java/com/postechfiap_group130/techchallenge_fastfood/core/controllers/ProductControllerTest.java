@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,7 +18,7 @@ import org.mockito.Mockito;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdateProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exceptions.DuplicateProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 
@@ -43,6 +44,11 @@ class ProductControllerTest {
                 "Cheese Burguer", 
                 new BigDecimal(14.90), 
                 Category.LANCHE);
+
+        ProductDto productDtoMock = new ProductDto(1L, "Cheese Burguer",
+                "pao e queijo", new BigDecimal(12.45), Category.LANCHE, true);
+
+        when(dataSource.saveProduct(any())).thenReturn(productDtoMock);
 
         // Act
         ProductResponseDto result = productController.createProduct(productRequestDto);
@@ -82,13 +88,17 @@ class ProductControllerTest {
                 new BigDecimal(12.45), 
                 Category.LANCHE, true);
 
+        ProductDto productDtoMock = new ProductDto(1L, "Cheese Burguer",
+                "pao e queijo", new BigDecimal(12.45), Category.LANCHE, true);
+
+        when(dataSource.updateProduct(any())).thenReturn(productDtoMock);
+
         // Act
         ProductResponseDto result = productController.updateProduct(updateProductRequestDto);
 
         // Assert
         assertNotNull(result);
-        verify(dataSource).existsByName(anyString());
-        verify(dataSource).saveProduct(any());
+        verify(dataSource).updateProduct(any());
 
     }
 }

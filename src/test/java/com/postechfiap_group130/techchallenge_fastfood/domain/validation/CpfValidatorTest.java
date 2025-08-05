@@ -1,5 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.domain.validation;
 
+import com.postechfiap_group130.techchallenge_fastfood.application.validation.CpfValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

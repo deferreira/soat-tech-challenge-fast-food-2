@@ -1,6 +1,8 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderResponseDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.gateways.ProductGateway;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.CheckoutUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetAllOrdersSortedUseCase;
 import com.postechfiap_group130.techchallenge_fastfood.core.usecases.GetOrdersUseCase;
@@ -31,13 +33,14 @@ public class OrderController {
         return OrderPresenter.toDto(listOrders);
     }
 
-    public OrderDto checkout(OrderRequestDto orderRequestDto) {
+    public OrderResponseDto checkout(OrderRequestDto orderRequestDto) {
         OrderGateway orderGateway = new OrderGateway(dataSource);
-        CheckoutUseCase checkoutUseCase = new CheckoutUseCase(orderGateway);
+        ProductGateway productGateway = new ProductGateway(dataSource);
+        CheckoutUseCase checkoutUseCase = new CheckoutUseCase(orderGateway, productGateway);
 
         Order result = checkoutUseCase.execute(orderRequestDto);
 
-        return OrderPresenter.toDto(result);
+        return OrderPresenter.toDtoWithoutOrderItemId(result);
     }
 
     public OrderDto updateStatus(Long orderId, String orderStatus) {

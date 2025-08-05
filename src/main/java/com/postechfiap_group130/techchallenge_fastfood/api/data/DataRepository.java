@@ -98,6 +98,7 @@ public class DataRepository implements DataSource {
     @Override
     public ProductDto saveProduct(ProductDto productDto) {
         ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(productDto.id());
         productEntity.setName(productDto.name());
         productEntity.setDescription(productDto.description());
         productEntity.setPrice(productDto.price());

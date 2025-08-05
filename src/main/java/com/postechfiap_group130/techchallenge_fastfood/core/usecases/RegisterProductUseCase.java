@@ -14,7 +14,6 @@ public class RegisterProductUseCase {
 
     public Product execute(ProductRequestDto productRequestDto) throws InvalidPropertyProductException{
         Product product = new Product(productRequestDto.getName(), productRequestDto.getDescription(), productRequestDto.getPrice(), productRequestDto.getCategory());
-        product.Validate();
         product = productGateway.saveProduct(product);
         return product;
     }

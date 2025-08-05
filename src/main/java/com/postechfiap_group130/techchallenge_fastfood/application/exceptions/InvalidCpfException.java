@@ -1,4 +1,4 @@
-package com.postechfiap_group130.techchallenge_fastfood.domain.exception;
+package com.postechfiap_group130.techchallenge_fastfood.application.exceptions;
 
 public class InvalidCpfException extends RuntimeException {
     

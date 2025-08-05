@@ -1,7 +1,7 @@
 package com.postechfiap_group130.techchallenge_fastfood.api.rest.controller;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
-import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.OrderRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.OrderController;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderResponseDto;

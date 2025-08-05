@@ -2,9 +2,6 @@ package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
-
-import java.util.Optional;
 
 public class FindOrderByIdUseCase {
 

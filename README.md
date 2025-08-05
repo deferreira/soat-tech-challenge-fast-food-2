@@ -78,18 +78,10 @@ Os pedidos podem ter os seguintes status:
 - PRONTO
 - FINALIZADO
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Arquitetura Kubernetes
-![Arquitetura Kubernetes ](Arquitetura_Kubernetes.png)
-=======
-=======
-
 ## Arquitetura Kubernetes
 
 ![Arquitetura Kubernetes ](Arquitetura_Kubernetes.png)
 
->>>>>>> 91d25a99974a7b27a08a32f5a1bcddf41d1ea9a2
 ## Arquitetura de negócio
 
 1. Order

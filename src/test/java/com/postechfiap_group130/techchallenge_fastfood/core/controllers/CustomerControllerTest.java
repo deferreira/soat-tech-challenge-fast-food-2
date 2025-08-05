@@ -3,7 +3,6 @@ package com.postechfiap_group130.techchallenge_fastfood.core.controllers;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.CustomerRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.CustomerResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.CustomerDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.entities.Customer;
 import com.postechfiap_group130.techchallenge_fastfood.core.interfaces.DataSource;
 import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +39,8 @@ class CustomerControllerTest {
 
         // Assert
         assertNotNull(result);
-        verify(dataSource).existsByEmailOrCpf(anyString(), anyString());
-        verify(dataSource).save(any());
+        verify(dataSource).existsCustomerByEmailOrCpf(anyString(), anyString());
+        verify(dataSource).saveCustomer(any());
 
     }
 
@@ -51,21 +50,21 @@ class CustomerControllerTest {
         CustomerRequestDto customerRequestDto = new CustomerRequestDto("Jhon", "jhondoe@gmail.com",
                 "12345678", "111.111.111-11");
 
-        when(dataSource.existsByEmailOrCpf(anyString(), anyString())).thenReturn(Boolean.TRUE);
+        when(dataSource.existsCustomerByEmailOrCpf(anyString(), anyString())).thenReturn(Boolean.TRUE);
 
         // Act
         var ex = assertThrows(ErrorException.class, () -> customerController.createCustomer(customerRequestDto));
 
         // Assert
         assertEquals("Customer already exists with EMAIL or CPF", ex.getMessage());
-        verify(dataSource).existsByEmailOrCpf(anyString(), anyString());
+        verify(dataSource).existsCustomerByEmailOrCpf(anyString(), anyString());
 
     }
 
     @Test
     void whenFindByCpf_thenReturnCustomer() {
         // Arrange
-        when(dataSource.findByCpf(TEST_CPF)).thenReturn(mockCustomerDto);
+        when(dataSource.findCustomerByCpf(TEST_CPF)).thenReturn(mockCustomerDto);
 
         // Act
         CustomerResponseDto result = customerController.findByCpf(TEST_CPF);
@@ -75,19 +74,19 @@ class CustomerControllerTest {
         assertEquals(TEST_CPF, result.getCpf());
         assertEquals("João da Silva", result.getName());
         assertEquals("joao.silva@email.com", result.getEmail());
-        verify(dataSource, times(1)).findByCpf(TEST_CPF);
+        verify(dataSource, times(1)).findCustomerByCpf(TEST_CPF);
     }
 
     @Test
     void whenFindByCpf_thenReturnNull() {
         // Arrange
-        when(dataSource.findByCpf(TEST_CPF)).thenReturn(null);
+        when(dataSource.findCustomerByCpf(TEST_CPF)).thenReturn(null);
 
         // Act
         var ex = assertThrows(ErrorException.class, () -> customerController.findByCpf(TEST_CPF));
 
         // Assert
         assertEquals("Customer not found with this CPF", ex.getMessage());
-        verify(dataSource, times(1)).findByCpf(TEST_CPF);
+        verify(dataSource, times(1)).findCustomerByCpf(TEST_CPF);
     }
 }

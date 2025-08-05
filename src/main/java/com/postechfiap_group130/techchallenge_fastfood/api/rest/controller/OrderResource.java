@@ -4,8 +4,6 @@ import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.OrderController;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
-import com.postechfiap_group130.techchallenge_fastfood.domain.ports.in.FakeCheckoutUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +14,17 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderResource {
 
-    private final FakeCheckoutUseCase fakeCheckoutUseCase;
-
     private final DataRepository dataRepository;
 
-    public OrderResource(DataRepository dataRepository, FakeCheckoutUseCase fakeCheckoutUseCase) {
+    public OrderResource(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
-        this.fakeCheckoutUseCase = fakeCheckoutUseCase;
     }
 
-    //Falta refatorar este fluxo
-    @PostMapping("/fake-checkout")
-    public ResponseEntity<Order> fakeCheckout(@RequestBody OrderRequestDto orderRequestDto) {
+    @PostMapping("/checkout")
+    public ResponseEntity<OrderDto> checkout(@RequestBody OrderRequestDto orderRequestDto) {
+        OrderController orderController = new OrderController(dataRepository);
 
-         Order order = fakeCheckoutUseCase.execute(orderRequestDto.toDomain());
+        OrderDto order = orderController.checkout(orderRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
@@ -38,8 +33,27 @@ public class OrderResource {
     public ResponseEntity<List<OrderDto>> getOrders() {
         OrderController orderController = new OrderController(dataRepository);
 
-        List<OrderDto> ordersList = orderController.getAllOrders();
+        List<OrderDto> result = orderController.getAllOrdersSorted();
 
-        return ResponseEntity.status(HttpStatus.OK).body(ordersList);
+        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
+        // TODO: implement id validation
+        OrderController orderController = new OrderController(dataRepository);
+        OrderDto response = orderController.findById(orderId);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
+    @PatchMapping("/{orderId}/status/{orderStatus}")
+    public ResponseEntity<OrderDto> updateStatus(@PathVariable Long orderId, @PathVariable String orderStatus) {
+        OrderController orderController = new OrderController(dataRepository);
+
+        OrderDto response = orderController.updateStatus(orderId, orderStatus);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 }
+

@@ -36,7 +36,7 @@ public class PaymentResource {
         return result != null ? ResponseEntity.ok(result) : ResponseEntity.internalServerError().build();
     }
 
-    @PatchMapping("/{paymentId}/status")
+    @PostMapping("/{paymentId}/status")
     public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long paymentId, @RequestBody @Valid UpdatePaymentRequestDto updatePaymentRequestDto) {
         // TODO: implement id validation
         PaymentController paymentController = new PaymentController(dataRepository);

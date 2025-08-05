@@ -83,7 +83,7 @@ Os pedidos podem ter os seguintes status:
 1. Order
 - Fluxo de Checkout (Criar Pedido)
 Order
-![Checkout](https://drive.google.com/file/d/1ZAsgklCNTtMHvifKypVWJNK0ymMNUyeD/view?usp=drivesdk)
+![Checkout](https://drive.google.com/uc?export=view&id=1ZAsgklCNTtMHvifKypVWJNK0ymMNUyeD&filename=imagem.png)
 
 - Fluxo de Busca de Pedidos
 ![New Get Orders](https://drive.google.com/file/d/11VQyMhUNWZEysEv7EYRwc35LxrDL9PFo/view?usp=drivesdk)

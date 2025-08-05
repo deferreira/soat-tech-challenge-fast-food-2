@@ -5,8 +5,8 @@ import java.util.List;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.ProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.UpdateProductRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ProductResponseDto;
-import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.DuplicateProductException;
-import com.postechfiap_group130.techchallenge_fastfood.core.domainExceptions.InvalidPropertyProductException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.DuplicateProductException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.InvalidPropertyProductException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnum.Category;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Product;
 

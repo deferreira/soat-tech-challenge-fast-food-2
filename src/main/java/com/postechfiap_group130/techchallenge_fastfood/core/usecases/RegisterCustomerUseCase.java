@@ -2,7 +2,7 @@ package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.CustomerRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.CustomerGateway;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.ErrorException;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Customer;
 
 import java.util.UUID;

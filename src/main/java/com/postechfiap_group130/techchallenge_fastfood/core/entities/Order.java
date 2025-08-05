@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.ErrorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

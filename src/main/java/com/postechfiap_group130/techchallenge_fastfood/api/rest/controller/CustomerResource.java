@@ -5,7 +5,7 @@ import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.Cus
 import com.postechfiap_group130.techchallenge_fastfood.api.data.DataRepository;
 import com.postechfiap_group130.techchallenge_fastfood.core.controllers.CustomerController;
 import com.postechfiap_group130.techchallenge_fastfood.domain.validation.CpfValidator;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.InvalidCpfException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.InvalidCpfException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

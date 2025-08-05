@@ -1,6 +1,6 @@
 package com.postechfiap_group130.techchallenge_fastfood.core.usecases;
 
-import com.postechfiap_group130.techchallenge_fastfood.application.dtos.OrderRequestDto;
+import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.request.OrderRequestDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.OrderItem;
 import com.postechfiap_group130.techchallenge_fastfood.core.gateways.OrderGateway;

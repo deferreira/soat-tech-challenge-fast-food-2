@@ -1,8 +1,8 @@
 package com.postechfiap_group130.techchallenge_fastfood.api.rest.handler;
 
 import com.postechfiap_group130.techchallenge_fastfood.api.rest.dto.response.ErrorResponseDto;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.ErrorException;
-import com.postechfiap_group130.techchallenge_fastfood.domain.exception.InvalidCpfException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.ErrorException;
+import com.postechfiap_group130.techchallenge_fastfood.application.exception.InvalidCpfException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

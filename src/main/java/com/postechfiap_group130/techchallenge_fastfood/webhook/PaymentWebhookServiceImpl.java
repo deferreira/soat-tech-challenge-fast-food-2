@@ -29,7 +29,7 @@ public class PaymentWebhookServiceImpl implements PaymentWebhookService {
         );
 
         try {
-            webClient.patch()
+            webClient.post()
                     .uri("/payments/" + request.paymentId() + "/status")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(statusUpdate)

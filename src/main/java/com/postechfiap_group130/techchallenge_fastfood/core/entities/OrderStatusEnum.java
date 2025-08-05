@@ -6,7 +6,8 @@ public enum OrderStatusEnum {
     RECEBIDO,
     EM_PREPARACAO,
     PRONTO,
-    FINALIZADO;
+    FINALIZADO,
+    CANCELADO;
 
     private OrderStatusEnum status;
 

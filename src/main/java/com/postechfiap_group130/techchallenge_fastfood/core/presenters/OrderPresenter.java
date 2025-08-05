@@ -2,12 +2,10 @@ package com.postechfiap_group130.techchallenge_fastfood.core.presenters;
 
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderItemResponseDto;
+import com.postechfiap_group130.techchallenge_fastfood.core.dtos.OrderResponseDto;
 import com.postechfiap_group130.techchallenge_fastfood.core.entities.Order;
-
-import java.math.BigDecimal;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class OrderPresenter {
 
@@ -78,5 +76,24 @@ public class OrderPresenter {
                 .toList();
 
         return orderDtoList;
+    }
+
+    public static OrderResponseDto toDtoWithoutOrderItemId(Order order) {
+        List<OrderItemResponseDto> orderItemDtoList = order.getItems().stream()
+                .map(orderItem -> {
+                    return new OrderItemResponseDto(
+                            orderItem.getProductId(),
+                            orderItem.getQuantity(),
+                            orderItem.getPrice()
+                    );
+                })
+                .toList();
+        return new OrderResponseDto(
+                order.getId(),
+                order.getOrderDate(),
+                order.getOrderStatus(),
+                orderItemDtoList,
+                order.getTotal(),
+                order.getPaymentId());
     }
 }

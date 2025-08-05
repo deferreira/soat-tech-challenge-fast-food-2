@@ -8,4 +8,5 @@ import com.postechfiap_group130.techchallenge_fastfood.core.entities.CategoryEnu
 
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByCategory(Category category);
+    Boolean existsByName(String name);
 }

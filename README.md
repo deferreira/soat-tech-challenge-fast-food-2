@@ -78,6 +78,11 @@ Os pedidos podem ter os seguintes status:
 - PRONTO
 - FINALIZADO
 
+
+## Arquitetura Kubernetes
+
+![Arquitetura Kubernetes ](Arquitetura_Kubernetes.png)
+
 ## Arquitetura de negócio
 
 1. Order
@@ -109,3 +114,4 @@ Order
 - Fluxo de Criação de Pagamento
 
 - Recebe notificação e Atualiza Status de Pagamento e da Ordem
+

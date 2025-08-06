@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: fastfood-api
-#          image: hmouraf/fastfood:tech_fase2
-          image: soat-tech-challenge-fast-food-app:tech_fase2
+          image: hmouraf/fastfood:tech_fase2
+#          image: soat-tech-challenge-fast-food-app:tech_fase2
           ports:
             - containerPort: 8080
           resources:

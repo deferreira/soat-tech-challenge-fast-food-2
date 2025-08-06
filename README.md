@@ -74,20 +74,25 @@ docker-compose up --build
 # Kubernetes
 1. Clone o repositório 
 https://github.com/deferreira/soat-tech-challenge-fast-food
-2. subir o banco de dados postgres 
-   2.1 - kubectl apply -f db/1_db_namespace.yml
-   2.2 - kubectl apply -f db/2_db_secret.yml
-   2.3 - kubectl apply -f db/3_db_configmap.yml
-   2.4 - kubectl apply -f db/4_db_deployment.yml
-   2.5 - kubectl apply -f db/5_db_service.yml
-   2.6 - kubectl apply -f db/6_db_hpa.yml
-3. subir a api
-   3.1 - kubectl apply -f app/1_app_namespace.yml
-   3.2 - kubectl apply -f app/2_app_secret.yml
-   3.3 - kubectl apply -f app/3_app_configmap.yml
-   3.4 - kubectl apply -f app/4_app_deployment.yml
-   3.5 - kubectl apply -f app/5_app_service.yml
-   3.6 - kubectl apply -f app/6_app_hpa.yml
+
+2. Entrar na pasta infra do projeto com o comando  
+
+>> cd infra/
+
+3. subir o banco de dados postgres 
+   3.1 - kubectl apply -f db/1_db_namespace.yml
+   3.2 - kubectl apply -f db/2_db_secret.yml
+   3.3 - kubectl apply -f db/3_db_configmap.yml
+   3.4 - kubectl apply -f db/4_db_deployment.yml
+   3.5 - kubectl apply -f db/5_db_service.yml
+   3.6 - kubectl apply -f db/6_db_hpa.yml
+4. subir a api
+   4.1 - kubectl apply -f app/1_app_namespace.yml
+   4.2 - kubectl apply -f app/2_app_secret.yml
+   4.3 - kubectl apply -f app/3_app_configmap.yml
+   4.4 - kubectl apply -f app/4_app_deployment.yml
+   4.5 - kubectl apply -f app/5_app_service.yml
+   4.6 - kubectl apply -f app/6_app_hpa.yml
 
 4. Acesse a documentação Swagger:
 - http://localhost:30080/swagger-ui.html

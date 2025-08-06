@@ -4,6 +4,7 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 
 ## Vídeo de Apresentação
 
+[![Vídeo de Apresentação](https://img.youtube.com/vi/brByCx_4ksk/0.jpg)](https://youtu.be/brByCx_4ksk)
 
 ## Tecnologias Utilizadas
 
@@ -50,8 +51,9 @@ src/main/java/com/postechfiap_group130/techchallenge_fastfood/
 - Checkout de pedidos
 - Pagamento
 
-## Como Executar
+# Como Executar
 
+## Docker compose
 1. Clone o repositório 
 https://github.com/deferreira/soat-tech-challenge-fast-food
 2. Execute o Docker Compose:
@@ -59,442 +61,472 @@ https://github.com/deferreira/soat-tech-challenge-fast-food
 docker-compose up --build
 ```
 
-3. Acesse o Swagger ou utilize a Collection:
+## Kubernetes
+1. Clone o repositório 
+https://github.com/deferreira/soat-tech-challenge-fast-food
+
+2. Entrar na pasta infra do projeto com o comando  
+
+>> cd infra/
+
+3. subir o banco de dados postgres 
+```
+   3.1 - kubectl apply -f db/1_db_namespace.yml
+   3.2 - kubectl apply -f db/2_db_secret.yml
+   3.3 - kubectl apply -f db/3_db_configmap.yml
+   3.4 - kubectl apply -f db/4_db_deployment.yml
+   3.5 - kubectl apply -f db/5_db_service.yml
+   3.6 - kubectl apply -f db/6_db_hpa.yml
+```
+4. subir a api
+```
+   4.1 - kubectl apply -f app/1_app_namespace.yml
+   4.2 - kubectl apply -f app/2_app_secret.yml
+   4.3 - kubectl apply -f app/3_app_configmap.yml
+   4.4 - kubectl apply -f app/4_app_deployment.yml
+   4.5 - kubectl apply -f app/5_app_service.yml
+   4.6 - kubectl apply -f app/6_app_hpa.yml
+```
+
+# Como Testar
+ Acesse o Swagger 
 - http://localhost:8080/swagger-ui.html
 - http://localhost:8080/swagger-ui/index.html
+
+Ou utilize a Collection:
 - [Uploadi{
-	"info": {
-		"_postman_id": "171bd94b-d540-4226-8230-5bc68401496c",
-		"name": "FastFood",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45299891",
-		"_collection_link": "https://deniseferreira-2135244.postman.co/workspace/Denise-Ferreira's-Workspace~a1562173-fdc7-4b70-8b1f-20c596e4a671/collection/45299891-171bd94b-d540-4226-8230-5bc68401496c?action=share&source=collection_link&creator=45299891"
-	},
-	"item": [
-		{
-			"name": "Customer",
-			"item": [
-				{
-					"name": "Create Customer",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Fulano de Tal da Silva\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"res74589\",\r\n    \"cpf\": \"763.349.200-73\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/customers/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"customers",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find Customer by CPF",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/customers/763.349.200-73",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"customers",
-								"763.349.200-73"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Product",
-			"item": [
-				{
-					"name": "Create Product",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"coca cola\",\n  \"description\": \"coca cola lata 350ml\",\n  \"price\": 6.90,\n  \"category\": \"BEBIDA\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/products/create",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"products",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Product by Category",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/products/category/BEBIDA",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"products",
-								"category",
-								"BEBIDA"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update product",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 4,\n    \"name\": \"Picole uva\",\n    \"description\": \"picole recheado sabor uva\",\n    \"price\": 13.90,\n    \"category\": \"SOBREMESA\",\n    \"avaliable\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/products/update",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"products",
-								"update"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Orders",
-			"item": [
-				{
-					"name": "Order Checkout",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"items\":[\r\n        {\r\n            \"productId\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 12.50\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/orders/checkout",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"orders",
-								"checkout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Order by ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/orders/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"orders",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Orders",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/orders",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"orders"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Order Status",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"items\":[\r\n        {\r\n            \"product_id\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 15\r\n        },\r\n        {\r\n            \"product_id\": 7,\r\n            \"quantity\": 1,\r\n            \"price\": 30\r\n        }\r\n    ]\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/orders/1/status/FINALIZADO",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"orders",
-								"1",
-								"status",
-								"FINALIZADO"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Payments",
-			"item": [
-				{
-					"name": "Create payment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"orderId\": 1,\r\n    \"amount\": 127\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/payments/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"payments",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Payment Status",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/payments/1/status",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"payments",
-								"1",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update PaymentStatus",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"APPROVED\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/payments/1/status",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"payments",
-								"1",
-								"status"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Webhook (notification)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"payment_id\": \"1\",\r\n    \"status\": \"REJECTED\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/webhook/payments",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"webhook",
-						"payments"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Mock Update Status (notification)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"paymentId\": 1\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/mock/payments",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"mock",
-						"payments"
-					]
-				}
-			},
-			"response": []
-		}
-	]
-}ng FastFood233.postman_collection…]()
+  "info": {
+  "_postman_id": "171bd94b-d540-4226-8230-5bc68401496c",
+  "name": "FastFood",
+  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+  "_exporter_id": "45299891",
+  "_collection_link": "https://deniseferreira-2135244.postman.co/workspace/Denise-Ferreira's-Workspace~a1562173-fdc7-4b70-8b1f-20c596e4a671/collection/45299891-171bd94b-d540-4226-8230-5bc68401496c?action=share&source=collection_link&creator=45299891"
+  },
+  "item": [
+  {
+  "name": "Customer",
+  "item": [
+  {
+  "name": "Create Customer",
+  "request": {
+  "method": "POST",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"name\": \"Fulano de Tal da Silva\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"res74589\",\r\n    \"cpf\": \"763.349.200-73\"\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/customers/create",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "customers",
+  "create"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Find Customer by CPF",
+  "request": {
+  "method": "GET",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "url": {
+  "raw": "http://localhost:8080/customers/763.349.200-73",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "customers",
+  "763.349.200-73"
+  ]
+  }
+  },
+  "response": []
+  }
+  ]
+  },
+  {
+  "name": "Product",
+  "item": [
+  {
+  "name": "Create Product",
+  "request": {
+  "method": "POST",
+  "header": [
+  {
+  "key": "Content-Type",
+  "value": "application/json"
+  }
+  ],
+  "body": {
+  "mode": "raw",
+  "raw": "{\n  \"name\": \"coca cola\",\n  \"description\": \"coca cola lata 350ml\",\n  \"price\": 6.90,\n  \"category\": \"BEBIDA\"\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "localhost:8080/products/create",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "products",
+  "create"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Get Product by Category",
+  "request": {
+  "method": "GET",
+  "header": [],
+  "url": {
+  "raw": "localhost:8080/products/category/BEBIDA",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "products",
+  "category",
+  "BEBIDA"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Update product",
+  "request": {
+  "method": "PUT",
+  "header": [
+  {
+  "key": "Content-Type",
+  "value": "application/json"
+  }
+  ],
+  "body": {
+  "mode": "raw",
+  "raw": "{\n    \"id\": 4,\n    \"name\": \"Picole uva\",\n    \"description\": \"picole recheado sabor uva\",\n    \"price\": 13.90,\n    \"category\": \"SOBREMESA\",\n    \"avaliable\": true\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "localhost:8080/products/update",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "products",
+  "update"
+  ]
+  }
+  },
+  "response": []
+  }
+  ]
+  },
+  {
+  "name": "Orders",
+  "item": [
+  {
+  "name": "Order Checkout",
+  "request": {
+  "method": "POST",
+  "header": [],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"items\":[\r\n        {\r\n            \"productId\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 12.50\r\n        }\r\n    ]\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/orders/checkout",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "orders",
+  "checkout"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Get Order by ID",
+  "request": {
+  "method": "GET",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "url": {
+  "raw": "http://localhost:8080/orders/2",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "orders",
+  "2"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Get Orders",
+  "request": {
+  "method": "GET",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "url": {
+  "raw": "http://localhost:8080/orders",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "orders"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Update Order Status",
+  "request": {
+  "method": "PATCH",
+  "header": [],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"items\":[\r\n        {\r\n            \"product_id\": 2,\r\n            \"quantity\": 1,\r\n            \"price\": 15\r\n        },\r\n        {\r\n            \"product_id\": 7,\r\n            \"quantity\": 1,\r\n            \"price\": 30\r\n        }\r\n    ]\r\n}"
+  },
+  "url": {
+  "raw": "http://localhost:8080/orders/1/status/FINALIZADO",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "orders",
+  "1",
+  "status",
+  "FINALIZADO"
+  ]
+  }
+  },
+  "response": []
+  }
+  ]
+  },
+  {
+  "name": "Payments",
+  "item": [
+  {
+  "name": "Create payment",
+  "request": {
+  "method": "POST",
+  "header": [],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"orderId\": 1,\r\n    \"amount\": 127\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/payments/create",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "payments",
+  "create"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Get Payment Status",
+  "request": {
+  "method": "GET",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "url": {
+  "raw": "http://localhost:8080/payments/1/status",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "payments",
+  "1",
+  "status"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Update PaymentStatus",
+  "request": {
+  "method": "POST",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"status\": \"APPROVED\"\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/payments/1/status",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "payments",
+  "1",
+  "status"
+  ]
+  }
+  },
+  "response": []
+  }
+  ]
+  },
+  {
+  "name": "Webhook (notification)",
+  "request": {
+  "method": "POST",
+  "header": [
+  {
+  "key": "Accept",
+  "value": "application/json"
+  }
+  ],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n    \"payment_id\": \"1\",\r\n    \"status\": \"REJECTED\"\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/webhook/payments",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "webhook",
+  "payments"
+  ]
+  }
+  },
+  "response": []
+  },
+  {
+  "name": "Mock Update Status (notification)",
+  "request": {
+  "method": "POST",
+  "header": [],
+  "body": {
+  "mode": "raw",
+  "raw": "{\r\n   \"paymentId\": 1\r\n}",
+  "options": {
+  "raw": {
+  "language": "json"
+  }
+  }
+  },
+  "url": {
+  "raw": "http://localhost:8080/mock/payments",
+  "protocol": "http",
+  "host": [
+  "localhost"
+  ],
+  "port": "8080",
+  "path": [
+  "mock",
+  "payments"
+  ]
+  }
+  },
+  "response": []
+  }
+  ]
+  }ng FastFood233.postman_collection…]()
 
 
 ## Ordem para Execução das APIs
@@ -535,7 +567,7 @@ PATCH /orders/{order_id}/status/{status}
 POST /payments/create
 # 4.2 Verificar status do pagamento
 GET /payments/{payment_id}/status
-# 4.3 Atualizar status do pagamento
+# 4.3 Atualizar status do pagamento (recebe a notificação webhook)
 POST /payments/{payment_id}/status
 ```
 
@@ -544,6 +576,11 @@ POST /payments/{payment_id}/status
 # 5.1 Simular atualização de status de pagamento
 POST /mock/payments
 ```
+
+## Arquitetura de Kubernetes
+[Teste de escalonamento do ambiente kubernetes](https://drive.google.com/file/d/1U8enPzJSjIzIw0bsgY3nLUUIebMnGl_x/view?usp=sharing)
+
+![Desenho Aquitetura Kubernetes](Arquitetura_Kubernetes.png)
 
 ## Arquitetura de negócio
 

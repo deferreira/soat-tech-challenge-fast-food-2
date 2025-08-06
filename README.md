@@ -4,7 +4,9 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 
 ## Vídeo de Apresentação
 
-[![Vídeo de Apresentação](https://img.youtube.com/vi/brByCx_4ksk/0.jpg)](https://youtu.be/brByCx_4ksk)
+Deploy EKS = https://youtu.be/Ts0YziBn4L8
+Aplicação = https://youtu.be/ZKdGDmuDi0A
+Stress Teste = https://youtu.be/XI5vvoAPs4g
 
 ## Tecnologias Utilizadas
 

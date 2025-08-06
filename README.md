@@ -15,30 +15,70 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 - Maven
 - Swagger/OpenAPI
 
-## Estrutura do Projeto
+## 🏗️ Estrutura do Projeto
+
+```
 src/main/java/com/postechfiap_group130/techchallenge_fastfood/
+├── api/                            # Camada de Interface
+│   └── rest/                       # Controladores REST
+│       ├── controller/             # Endpoints da API
+│       └── dto/                    # DTOs da API
 │
-├── api/                              # Camada de Interface
-│   └── rest/controller/             # Controladores REST
+├── application/                     # Camada de Aplicação
+│   ├── exceptions/                 # Exceções personalizadas
+│   ├── validation/                 # Validações de aplicação
+│   └── config/                     # Configurações da aplicação
 │
-├── application/                      # Lógica de Aplicação
-│   ├── exceptions/                  # Exceções personalizadas
-│   └── validation/                 # Validações de aplicação
-│
-├── config/                          # Configurações da aplicação
-│
-├── core/                            # Núcleo do Domínio
-│   ├── controllers/                 # Controladores de negócio
+├── core/                           # Núcleo do Domínio (Domain Layer)
+│   ├── controllers/                # Controladores de negócio
 │   ├── dtos/                       # Objetos de Transferência
 │   ├── entities/                   # Entidades de Domínio
+│   │   ├── model/                  # Modelos de domínio
+│   │   └── valueobjects/           # Objetos de Valor
+│   │
 │   ├── enums/                      # Enums do Domínio
-│   ├── gateways/                   # Implementações de portas de saída
+│   │   ├── OrderStatusEnum.java
+│   │   ├── PaymentStatusEnum.java
+│   │   └── ProductCategoryEnum.java
+│   │
 │   ├── interfaces/                 # Portas (interfaces)
-│   ├── presenters/                 # Conversores para DTOs
-│   └── usecases/                   # Casos de Uso
+│   │   ├── gateway/                # Portas de saída (Gateways)
+│   │   └── usecases/               # Casos de Uso (Portas de entrada)
+│   │
+│   └── usecases/                   # Implementações dos Casos de Uso
+│       ├── impl/                   
+│       └── ports/                  # Interfaces dos Casos de Uso
+│
+├── infrastructure/                 # Infraestrutura
+│   ├── config/                     # Configurações de infraestrutura
+│   ├── persistence/                # Implementações de persistência
+│   └── web/                        # Configurações web
 │
 ├── mock_payment/                   # Simulação de pagamento
-└── webhook/                       # Webhooks externos
+└── webhook/                        # Webhooks externos
+```
+
+### Camadas da Aplicação
+
+1. **API Layer**
+   - Expõe os endpoints REST
+   - Converte entre DTOs e objetos de domínio
+   - Tratamento de erros HTTP
+
+2. **Application Layer**
+   - Orquestra o fluxo de casos de uso
+   - Gerencia transações
+   - Implementa validações de negócio
+
+3. **Domain Layer**
+   - Contém a lógica de negócio central
+   - Define entidades, agregados e objetos de valor
+   - Especifica interfaces (portas) para serviços externos
+
+4. **Infrastructure Layer**
+   - Implementa adaptadores para serviços externos
+   - Configurações do Spring
+   - Acesso a banco de dados
 
 ## Funcionalidades
 
@@ -495,26 +535,132 @@ docker-compose up --build
 }ng FastFood233.postman_collection…]()
 
 
-4. Ordem para execução das APIs
-1 ProductResource
-POST /products/create 
-GET /products/category/{category} 
-PUT /products/update 
+## 🚀 Ordem para Execução das APIs
 
-2 CustomerResource
-POST /customers/create 
-GET /customers/{cpf}
+### 1. Configuração Inicial
+```http
+# Verificar saúde da API
+GET /actuator/health
+```
 
-3 OrderResource
-POST /orders/checkout 
+### 2. Gerenciamento de Produtos
+```http
+# 2.1 Criar um novo produto
+POST /products/create
+Content-Type: application/json
+
+{
+  "name": "X-Burger",
+  "description": "Hambúrguer com queijo",
+  "price": 25.90,
+  "category": "LANCHE"
+}
+
+# 2.2 Listar produtos por categoria
+GET /products/category/LANCHE
+
+# 2.3 Atualizar um produto existente
+PUT /products/update
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "X-Burger Especial",
+  "description": "Hambúrguer com queijo e bacon",
+  "price": 29.90,
+  "category": "LANCHE",
+  "available": true
+}
+```
+
+### 3. Gerenciamento de Clientes
+```http
+# 3.1 Cadastrar um novo cliente
+POST /customers/create
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "senha123",
+  "cpf": "123.456.789-09"
+}
+
+# 3.2 Buscar cliente por CPF
+GET /customers/123.456.789-09
+```
+
+### 4. Gerenciamento de Pedidos
+```http
+# 4.1 Criar um novo pedido (checkout)
+POST /orders/checkout
+Content-Type: application/json
+
+{
+  "customerCpf": "123.456.789-09",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+  ]
+}
+
+# 4.2 Listar todos os pedidos
 GET /orders
-GET /orders/{orderId}
-PATCH /orders/{orderId}/status/{orderStatus} 
 
-4 PaymentResource
+# 4.3 Buscar pedido por ID
+GET /orders/1
+
+# 4.4 Atualizar status do pedido
+PATCH /orders/1/status/EM_PREPARACAO
+```
+
+### 5. Processamento de Pagamentos
+```http
+# 5.1 Criar pagamento
 POST /payments/create
-GET /payments/{paymentId}/status
-POST /payments/{paymentId}/status
+Content-Type: application/json
+
+{
+  "orderId": 1,
+  "amount": 51.80
+}
+
+# 5.2 Verificar status do pagamento
+GET /payments/1/status
+
+# 5.3 Atualizar status do pagamento (simulação)
+POST /payments/1/status
+Content-Type: application/json
+
+{
+  "status": "APROVADO"
+}
+```
+
+### 6. Webhook (Notificações)
+```http
+# 6.1 Receber notificação de pagamento
+POST /webhook/payments
+Content-Type: application/json
+
+{
+  "payment_id": 1,
+  "status": "APROVADO"
+}
+```
+
+### 7. Mock de Pagamento (Para testes)
+```http
+# 7.1 Simular atualização de status de pagamento
+POST /mock/payments
+Content-Type: application/json
+
+{
+  "paymentId": 1
+}
+```
 
 ## Arquitetura de negócio
 

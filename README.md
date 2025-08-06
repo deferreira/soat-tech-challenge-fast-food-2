@@ -4,9 +4,10 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 
 ## Vídeo de Apresentação
 
-Deploy EKS = https://youtu.be/Ts0YziBn4L8
-Aplicação = https://youtu.be/ZKdGDmuDi0A
-Stress Teste = https://youtu.be/XI5vvoAPs4g
+- [DeployEKS](https://youtu.be/Ts0YziBn4L8)
+- [Aplicação](https://youtu.be/ZKdGDmuDi0A)
+- [StressTeste](https://youtu.be/XI5vvoAPs4g)
+
 
 ## Tecnologias Utilizadas
 
@@ -585,7 +586,8 @@ POST /mock/payments
 ```
 
 ## Arquitetura de Kubernetes
-[Teste de escalonamento do ambiente kubernetes](https://drive.google.com/file/d/1U8enPzJSjIzIw0bsgY3nLUUIebMnGl_x/view?usp=sharing)
+
+- [Teste de escalonamento do ambiente kubernetes](https://youtu.be/XI5vvoAPs4g)
 
 ![Desenho Aquitetura Kubernetes](Arquitetura_Kubernetes.png)
 

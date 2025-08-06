@@ -15,70 +15,32 @@ API para gerenciamento de pedidos de fast food, desenvolvida como parte do Tech 
 - Maven
 - Swagger/OpenAPI
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 src/main/java/com/postechfiap_group130/techchallenge_fastfood/
-├── api/                            # Camada de Interface
-│   └── rest/                       # Controladores REST
-│       ├── controller/             # Endpoints da API
-│       └── dto/                    # DTOs da API
 │
-├── application/                     # Camada de Aplicação
-│   ├── exceptions/                 # Exceções personalizadas
-│   ├── validation/                 # Validações de aplicação
-│   └── config/                     # Configurações da aplicação
+├── api/                              # Camada de Interface
+│   └── rest/controller/             # Controladores REST
 │
-├── core/                           # Núcleo do Domínio (Domain Layer)
-│   ├── controllers/                # Controladores de negócio
+├── application/                      # Lógica de Aplicação
+│   ├── exceptions/                  # Exceções personalizadas
+│   └── validation/                 # Validações de aplicação
+│
+├── config/                          # Configurações da aplicação
+│
+├── core/                            # Núcleo do Domínio
+│   ├── controllers/                 # Controladores de negócio
 │   ├── dtos/                       # Objetos de Transferência
 │   ├── entities/                   # Entidades de Domínio
-│   │   ├── model/                  # Modelos de domínio
-│   │   └── valueobjects/           # Objetos de Valor
-│   │
-│   ├── enums/                      # Enums do Domínio
-│   │   ├── OrderStatusEnum.java
-│   │   ├── PaymentStatusEnum.java
-│   │   └── ProductCategoryEnum.java
-│   │
+│   ├── gateways/                   # Implementações de portas de saída
 │   ├── interfaces/                 # Portas (interfaces)
-│   │   ├── gateway/                # Portas de saída (Gateways)
-│   │   └── usecases/               # Casos de Uso (Portas de entrada)
-│   │
-│   └── usecases/                   # Implementações dos Casos de Uso
-│       ├── impl/                   
-│       └── ports/                  # Interfaces dos Casos de Uso
-│
-├── infrastructure/                 # Infraestrutura
-│   ├── config/                     # Configurações de infraestrutura
-│   ├── persistence/                # Implementações de persistência
-│   └── web/                        # Configurações web
+│   ├── presenters/                 # Conversores para DTOs
+│   └── usecases/                   # Casos de Uso
 │
 ├── mock_payment/                   # Simulação de pagamento
-└── webhook/                        # Webhooks externos
+└── webhook/                       # Webhooks externos
 ```
-
-### Camadas da Aplicação
-
-1. **API Layer**
-   - Expõe os endpoints REST
-   - Converte entre DTOs e objetos de domínio
-   - Tratamento de erros HTTP
-
-2. **Application Layer**
-   - Orquestra o fluxo de casos de uso
-   - Gerencia transações
-   - Implementa validações de negócio
-
-3. **Domain Layer**
-   - Contém a lógica de negócio central
-   - Define entidades, agregados e objetos de valor
-   - Especifica interfaces (portas) para serviços externos
-
-4. **Infrastructure Layer**
-   - Implementa adaptadores para serviços externos
-   - Configurações do Spring
-   - Acesso a banco de dados
 
 ## Funcionalidades
 
@@ -535,131 +497,52 @@ docker-compose up --build
 }ng FastFood233.postman_collection…]()
 
 
-## 🚀 Ordem para Execução das APIs
+## Ordem para Execução das APIs
 
-### 1. Configuração Inicial
+### 1. Gerenciamento de Produtos
 ```http
-# Verificar saúde da API
-GET /actuator/health
-```
-
-### 2. Gerenciamento de Produtos
-```http
-# 2.1 Criar um novo produto
+# 1.1 Criar um novo produto
 POST /products/create
-Content-Type: application/json
-
-{
-  "name": "X-Burger",
-  "description": "Hambúrguer com queijo",
-  "price": 25.90,
-  "category": "LANCHE"
-}
-
-# 2.2 Listar produtos por categoria
-GET /products/category/LANCHE
-
-# 2.3 Atualizar um produto existente
+# 1.2 Listar produtos por categoria
+GET /products/category/{category}
+# 1.3 Atualizar um produto existente
 PUT /products/update
-Content-Type: application/json
-
-{
-  "id": 1,
-  "name": "X-Burger Especial",
-  "description": "Hambúrguer com queijo e bacon",
-  "price": 29.90,
-  "category": "LANCHE",
-  "available": true
-}
 ```
 
-### 3. Gerenciamento de Clientes
+### 2. Gerenciamento de Clientes
 ```http
-# 3.1 Cadastrar um novo cliente
+# 2.1 Cadastrar um novo cliente
 POST /customers/create
-Content-Type: application/json
-
-{
-  "name": "João Silva",
-  "email": "joao@email.com",
-  "password": "senha123",
-  "cpf": "123.456.789-09"
-}
-
-# 3.2 Buscar cliente por CPF
-GET /customers/123.456.789-09
+# 2.2 Buscar cliente por CPF
+GET /customers/{cpf}
 ```
 
-### 4. Gerenciamento de Pedidos
+### 3. Gerenciamento de Pedidos
 ```http
-# 4.1 Criar um novo pedido (checkout)
+# 3.1 Criar um novo pedido (checkout)
 POST /orders/checkout
-Content-Type: application/json
-
-{
-  "customerCpf": "123.456.789-09",
-  "items": [
-    {
-      "productId": 1,
-      "quantity": 2
-    }
-  ]
-}
-
-# 4.2 Listar todos os pedidos
+# 3.2 Listar todos os pedidos
 GET /orders
-
-# 4.3 Buscar pedido por ID
-GET /orders/1
-
-# 4.4 Atualizar status do pedido
-PATCH /orders/1/status/EM_PREPARACAO
+# 3.3 Buscar pedido por ID
+GET /orders/{order_id}
+# 3.4 Atualizar status do pedido
+PATCH /orders/{order_id}/status/{status}
 ```
 
-### 5. Processamento de Pagamentos
+### 4. Processamento de Pagamentos
 ```http
-# 5.1 Criar pagamento
+# 4.1 Criar pagamento
 POST /payments/create
-Content-Type: application/json
-
-{
-  "orderId": 1,
-  "amount": 51.80
-}
-
-# 5.2 Verificar status do pagamento
-GET /payments/1/status
-
-# 5.3 Atualizar status do pagamento (simulação)
-POST /payments/1/status
-Content-Type: application/json
-
-{
-  "status": "APROVADO"
-}
+# 4.2 Verificar status do pagamento
+GET /payments/{payment_id}/status
+# 4.3 Atualizar status do pagamento
+POST /payments/{payment_id}/status
 ```
 
-### 6. Webhook (Notificações)
+### 5. Mock de Pagamento (Simulação)
 ```http
-# 6.1 Receber notificação de pagamento
-POST /webhook/payments
-Content-Type: application/json
-
-{
-  "payment_id": 1,
-  "status": "APROVADO"
-}
-```
-
-### 7. Mock de Pagamento (Para testes)
-```http
-# 7.1 Simular atualização de status de pagamento
+# 5.1 Simular atualização de status de pagamento
 POST /mock/payments
-Content-Type: application/json
-
-{
-  "paymentId": 1
-}
 ```
 
 ## Arquitetura de negócio

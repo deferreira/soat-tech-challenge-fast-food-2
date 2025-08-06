@@ -89,11 +89,16 @@ https://github.com/deferreira/soat-tech-challenge-fast-food
 ```
 
 # Como Testar
- Acesse o Swagger 
+ Acesse o Swagger (dockercompose)
 - http://localhost:8080/swagger-ui.html
 - http://localhost:8080/swagger-ui/index.html
 
+Acesse o Swagger (kubernetes)
+- http://localhost:30080/swagger-ui.html
+- http://localhost:30080/swagger-ui/index.html
+
 Ou utilize a Collection:
+(atenção para as portas, use 30080 ou 8080)
 - [Uploadi{
   "info": {
   "_postman_id": "171bd94b-d540-4226-8230-5bc68401496c",
